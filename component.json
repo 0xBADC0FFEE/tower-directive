@@ -5,13 +5,21 @@
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
-    "component/emitter": "*"
+    "component/emitter": "*",
+    "part/mixin": "*"
   },
+  "local": [
+    "runloop"
+  ],
+  "paths": [
+    "../"
+  ],
   "development": {
     "visionmedia/mocha": "*"
   },
   "scripts": [
-    "index.js"
+    "index.js",
+    "lib/map.js"
   ],
   "license": "MIT"
 }
