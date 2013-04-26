@@ -1,11 +1,28 @@
+
 /**
- * Module Dependencies
+ * Module dependencies.
  */
 
 var Emitter = require('emitter')
-  , Mixin   = require('part-mixin')
-  , run     = require('tower-run-loop')
-  , map     = require('./lib/map');
+  , Mixin = require('part-mixin')
+  , run = require('tower-run-loop')
+  , map = require('./lib/map');
+
+/**
+ * Expose `Binding`.
+ *
+ * @type {Binding}
+ */
+
+module.exports = Binding;
+
+/**
+ * Expose `map`.
+ *
+ * @type {Object}
+ */
+
+Binding.map = map;
 
 /**
  * Binding Method (Mixin);
@@ -45,8 +62,7 @@ Binding.prototype._ids = {};
  * and update each binding.
  */
 
-Binding.prototype.propagateBindings = function() {
-  console.log(this);
+Binding.prototype.propagateBindings = function(){
 };
 
 /**
@@ -55,13 +71,14 @@ Binding.prototype.propagateBindings = function() {
  * @param  {String/Array} keys
  */
 
-Binding.prototype.changed = function(keys) {
-  var self = this;
+Binding.prototype.changed = function(keys){
+  var type = typeof keys
+    , self = this;
 
-  if (typeof keys === "string") {
+  if ('string' === type) {
     changed(keys);
-  } else if (typeof keys == "object" && keys.length) {
-    keys.forEach(function(key) {
+  } else if ('object' === type && keys.length) {
+    keys.forEach(function(key){
       changed(key);
     });
   }
@@ -95,7 +112,6 @@ Binding.prototype.changed = function(keys) {
     return _id;
   }
 
-
   /**
    * Get the value of a given key. This method
    * will work with string-based namespaces `hello.one`
@@ -125,26 +141,8 @@ Binding.prototype.changed = function(keys) {
           return new Error('Cannot find key: ' + key);
         }
       }
-
     }
 
     return self[key];
   }
-
 };
-
-/**
- * Export Map
- *
- * @type {Object}
- */
-
-Binding.map = map;
-
-/**
- * Module Exports.
- *
- * @type {Binding}
- */
-
-module.exports = Binding;
