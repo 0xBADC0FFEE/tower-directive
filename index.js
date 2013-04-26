@@ -46,8 +46,7 @@ Binding.prototype._ids = {};
  */
 
 Binding.prototype.propagateBindings = function() {
-  var bnd = map.find(this);
-  console.log(bnd);
+  console.log(this);
 };
 
 /**
