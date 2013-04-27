@@ -8,6 +8,13 @@ var Emitter = require('emitter')
   , run = require('tower-run-loop')
   , map = require('./lib/map');
 
+Function.prototype.property = function() {
+  this._properties = arguments;
+  this._computed = null;
+  return this;
+}
+
+
 /**
  * Expose `Binding`.
  *
@@ -39,14 +46,6 @@ function Binding(obj, html) {
   // Create a new mixin.
   return Mixin(obj, Binding.prototype);
 }
-
-/**
- * All the dirty keys within the object.
- *
- * @type {Array}
- */
-
-Binding.prototype._dirty = [];
 
 /**
  * All the generated IDs for each key.
@@ -90,6 +89,8 @@ Binding.prototype.changed = function(keys){
    */
 
   function changed(key) {
+    self.emit('changed', key);
+    self.emit(key + ' changed');
     run.batch('sync', self, id(key), 'propagateBindings');
   }
 
@@ -146,3 +147,6 @@ Binding.prototype.changed = function(keys){
     return self[key];
   }
 };
+
+
+Emitter(Binding.prototype);
