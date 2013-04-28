@@ -6,7 +6,14 @@
 var Emitter = require('emitter')
   , Mixin = require('part-mixin')
   , run = require('tower-run-loop')
-  , map = require('./lib/map');
+  , map = require('./lib/map')
+  , binding = require('./lib/binding');
+
+/**
+ * Computed property
+ *
+ * @return {Function}
+ */
 
 Function.prototype.property = function() {
   this._properties = arguments;
@@ -30,6 +37,14 @@ module.exports = Binding;
  */
 
 Binding.map = map;
+
+/**
+ * Export `binding`
+ *
+ * @type {binding}
+ */
+
+Binding.binding = binding;
 
 /**
  * Binding Method (Mixin);
@@ -62,6 +77,7 @@ Binding.prototype._ids = {};
  */
 
 Binding.prototype.propagateBindings = function(){
+  this.emit('propagating bindings');
 };
 
 /**
@@ -148,5 +164,8 @@ Binding.prototype.changed = function(keys){
   }
 };
 
+/**
+ * Mixin an Emitter
+ */
 
 Emitter(Binding.prototype);

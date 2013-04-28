@@ -19,7 +19,8 @@
   },
   "scripts": [
     "index.js",
-    "lib/map.js"
+    "lib/map.js",
+    "lib/binding.js"
   ],
   "license": "MIT"
 }
