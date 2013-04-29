@@ -10,17 +10,19 @@ var Emitter = require('emitter')
   , binding = require('./lib/binding');
 
 /**
- * Computed property
+ * Computed property.
+ *
+ * XXX: We should probably have this as another module,
+ *      to avoid having native object extensions.
  *
  * @return {Function}
  */
 
-Function.prototype.property = function() {
+Function.prototype.property = function(){
   this._properties = arguments;
   this._computed = null;
   return this;
 }
-
 
 /**
  * Expose `Binding`.
@@ -28,7 +30,7 @@ Function.prototype.property = function() {
  * @type {Binding}
  */
 
-module.exports = Binding;
+exports = module.exports = Binding;
 
 /**
  * Expose `map`.
@@ -36,7 +38,7 @@ module.exports = Binding;
  * @type {Object}
  */
 
-Binding.map = map;
+exports.map = map;
 
 /**
  * Export `binding`
@@ -44,7 +46,7 @@ Binding.map = map;
  * @type {binding}
  */
 
-Binding.binding = binding;
+exports.binding = binding;
 
 /**
  * Binding Method (Mixin);
@@ -61,6 +63,12 @@ function Binding(obj, html) {
   // Create a new mixin.
   return Mixin(obj, Binding.prototype);
 }
+
+/**
+ * Mixin an Emitter
+ */
+
+Emitter(Binding.prototype);
 
 /**
  * All the generated IDs for each key.
@@ -163,9 +171,3 @@ Binding.prototype.changed = function(keys){
     return self[key];
   }
 };
-
-/**
- * Mixin an Emitter
- */
-
-Emitter(Binding.prototype);
