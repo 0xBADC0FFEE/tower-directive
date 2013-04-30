@@ -9,7 +9,7 @@
     "part/mixin": "*"
   },
   "local": [
-    "runloop"
+    "run-loop"
   ],
   "paths": [
     "../"
