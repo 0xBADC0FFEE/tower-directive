@@ -15,6 +15,7 @@
     "../"
   ],
   "development": {
+    "component/assert": "*",
     "visionmedia/mocha": "*"
   },
   "scripts": [
