@@ -4,13 +4,13 @@ var binding = 'undefined' == typeof window ? require('..') : require('tower-data
 describe("data-binding", function(){
   var bindObj = {};
 
-  beforeEach(function() {
+  beforeEach(function(){
     binding(bindObj);
   });
 
-  describe("changed", function() {
-    it('should emit `changed` event', function(done) {
-      bindObj.on('changed', function(key) {
+  describe("changed", function(){
+    it('should emit `changed` event', function(done){
+      bindObj.on('changed', function(key){
         assert('name' === key);
         done();
       });
@@ -18,8 +18,8 @@ describe("data-binding", function(){
       bindObj.changed(['name']);
     });
 
-    it('should emit `(key) changed` event', function(done) {
-      bindObj.on('name changed', function(key) {
+    it('should emit `(key) changed` event', function(done){
+      bindObj.on('name changed', function(key){
         done();
       });
 
@@ -27,9 +27,9 @@ describe("data-binding", function(){
     });
   });
 
-  describe('propagateBindings', function() {
-    it('should emit `propagating bindings` event', function(done) {
-      bindObj.on('propagating bindings', function() {
+  describe('propagateBindings', function(){
+    it('should emit `propagating bindings` event', function(done){
+      bindObj.on('propagating bindings', function(){
         done();
       });
 
