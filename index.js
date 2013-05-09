@@ -3,171 +3,76 @@
  * Module dependencies.
  */
 
-var Emitter = require('emitter')
-  , Mixin = require('part-mixin')
-  , run = require('tower-run-loop')
-  , map = require('./lib/map')
-  , binding = require('./lib/binding');
+var Emitter = require('tower-emitter')
+  , proto = require('./lib/proto')
+  , statics = require('./lib/statics');
 
 /**
- * Computed property.
- *
- * XXX: We should probably have this as another module,
- *      to avoid having native object extensions.
- *
- * @return {Function}
+ * Expose `bind`.
  */
 
-Function.prototype.property = function(){
-  this._properties = arguments;
-  this._computed = null;
-  return this;
+exports = module.exports = binding;
+
+/**
+ * Expose `collection`.
+ */
+
+exports.collection = [];
+
+/**
+ * Get/set binding function.
+ *
+ * 
+ * 
+ * @param {String} name
+ * @param {Function} fn
+ */
+
+function binding(name, fn) {
+  if (undefined === fn && exports.collection[name])
+    return exports.collection[name];
+
+  /**
+   * Instantiate a new `Binding`.
+   */
+
+  function Binding(source, target) {
+    this.name = name;
+    this.source = source;
+    this.target = target;
+    this._bind = Binding._bind;
+    this._unbind = Binding._unbind;
+  }
+
+  Binding.prototype = {};
+  Binding.id = name;
+
+  // statics
+  for (var key in statics) Binding[key] = statics[key];
+
+  // proto
+  for (var key in proto) Binding.prototype[key] = proto[key];
+
+  if (fn) Binding._bind = fn;
+
+  exports.collection[name] = Binding;
+  exports.collection.push(Binding);
+  exports.emit('define', Binding);
+  return Binding;
 }
 
 /**
- * Expose `Binding`.
- *
- * @type {Binding}
+ * Mixin `Emitter`.
  */
 
-exports = module.exports = Binding;
+Emitter(exports);
 
 /**
- * Expose `map`.
- *
- * @type {Object}
+ * Clear all bindings.
  */
 
-exports.map = map;
-
-/**
- * Export `binding`
- *
- * @type {binding}
- */
-
-exports.binding = binding;
-
-/**
- * Binding Method (Mixin);
- *
- * @param {Object} obj
- */
-
-function Binding(obj, html) {
-  if (!obj) return false;
-
-  if (html)
-    Binding.prototype.__isDomElem = true;
-
-  // Create a new mixin.
-  return Mixin(obj, Binding.prototype);
+exports.clear = function(){
+  exports.off('define');
+  exports.collection = [];
+  return exports;
 }
-
-/**
- * Mixin an Emitter
- */
-
-Emitter(Binding.prototype);
-
-/**
- * All the generated IDs for each key.
- *
- * @type {Object}
- */
-
-Binding.prototype._ids = {};
-
-/**
- * Propagate changes to other bindings.
- * This method will do lookups on all the map instances
- * and update each binding.
- */
-
-Binding.prototype.propagateBindings = function(){
-  this.emit('propagating bindings');
-};
-
-/**
- * Alert the system that a key has changed.
- *
- * @param  {String/Array} keys
- */
-
-Binding.prototype.changed = function(keys){
-  var type = typeof keys
-    , self = this;
-
-  if ('string' === type) {
-    changed(keys);
-  } else if ('object' === type && keys.length) {
-    keys.forEach(function(key){
-      changed(key);
-    });
-  }
-
-  /**
-   * Helper method to batch the binding update.
-   *
-   * @param  {String} key
-   */
-
-  function changed(key) {
-    self.emit('changed', key);
-    self.emit(key + ' changed');
-    run.batch('sync', self, id(key), 'propagateBindings');
-  }
-
-  /**
-   * Return an existing or generate a new ID based on
-   * the given key.
-   *
-   * @param  {String} key
-   * @return {Number}
-   */
-
-  function id(key) {
-    var _id = self._ids[key];
-
-    if (!_id) {
-      var prev = self._ids[Object.keys(self._ids).length - 1];
-      _id = self._ids[key] = prev && prev++ || 0;
-    }
-
-    return _id;
-  }
-
-  /**
-   * Get the value of a given key. This method
-   * will work with string-based namespaces `hello.one`
-   *
-   * @param  {String} key
-   * @return {Any}
-   */
-
-  function get(key) {
-    if (key.match(/\./g)) {
-      var keys = key.split('.')
-        , prev;
-
-      prev = self[keys[0]];
-      keys.splice(0, 1);
-
-      for (var i = 0, n = keys.length; i < n; i++) {
-        if (prev) {
-
-          prev = prev[keys[i]];
-
-          if ((n - 1) === i) {
-            return prev;
-          }
-
-        } else {
-          return new Error('Cannot find key: ' + key);
-        }
-      }
-    }
-
-    return self[key];
-  }
-};

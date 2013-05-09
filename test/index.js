@@ -1,39 +1,52 @@
-var binding = 'undefined' == typeof window ? require('..') : require('tower-data-binding')
-  , assert = require('assert');
+var binding = require('..');
+var assert = require('assert');
 
-describe("data-binding", function(){
-  var bindObj = {};
+describe('binding', function(){
+  beforeEach(binding.clear);
 
-  beforeEach(function(){
-    binding(bindObj);
+  it('should define', function(done){
+    binding.on('define', function(Binding){
+      assert('property' === Binding.id);
+      done();
+    });
+
+    binding('property');
   });
 
-  describe("changed", function(){
-    it('should emit `changed` event', function(done){
-      bindObj.on('changed', function(key){
-        assert('name' === key);
-        done();
-      });
+  it('should bind', function(done){
+    var x = { title: 'foo' };
+    var y = { title: 'bar' };
 
-      bindObj.changed(['name']);
+    binding('title', function(ctx, a, b){
+      a.title = b.title;
+      assert('bar' === a.title);
+      done();
     });
 
-    it('should emit `(key) changed` event', function(done){
-      bindObj.on('name changed', function(key){
-        done();
-      });
-
-      bindObj.changed(['name']);
-    });
+    var b = binding('title').init(x, y);
+    assert(x === b.source);
+    assert(y === b.target);
+    b.bind();
   });
 
-  describe('propagateBindings', function(){
-    it('should emit `propagating bindings` event', function(done){
-      bindObj.on('propagating bindings', function(){
-        done();
+  it('should allow setup/teardown', function(){
+    var x = { title: 'foo' };
+    var y = { title: 'bar' };
+    var calls = [];
+
+    binding('title')
+      .bind(function(ctx, a, b){
+        a.title = b.title;
+        calls.push('bind');
+      })
+      .unbind(function(ctx, a, b){
+        calls.push('unbind');
       });
 
-      bindObj.propagateBindings();
-    });
+    binding('title').init(x, y)
+      .bind()
+      .unbind();
+
+    assert('bind,unbind' === calls.join(','));
   });
 });

@@ -1,27 +1,20 @@
 {
-  "name": "tower-data-binding",
-  "repo": "tower/data-binding",
-  "description": "Tower Data Binding",
+  "name": "tower-binding",
+  "repo": "tower/binding",
+  "description": "Tower Binding component",
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
-    "component/emitter": "*",
-    "part/mixin": "*"
+    "tower/emitter": "*"
   },
-  "local": [
-    "run-loop"
-  ],
-  "paths": [
-    "../"
-  ],
   "development": {
-    "component/assert": "*",
-    "visionmedia/mocha": "*"
+    "visionmedia/mocha": "*",
+    "timoxley/assert": "*"
   },
   "scripts": [
     "index.js",
-    "lib/map.js",
-    "lib/binding.js"
+    "lib/proto.js",
+    "lib/statics.js"
   ],
   "license": "MIT"
 }
