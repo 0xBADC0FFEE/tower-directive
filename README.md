@@ -74,8 +74,7 @@ Before you send a pull request, make sure your code meets the style guidelines a
 ## Notes
 
 - http://en.wikipedia.org/wiki/Scope_(computer_science)
-- http://docs.angularjs.org/guide/directive
-- scope/directive?
+- http://en.wikipedia.org/wiki/Directive_(programming)
 
 ## License
 
