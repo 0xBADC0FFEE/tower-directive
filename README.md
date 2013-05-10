@@ -1,7 +1,5 @@
 # Tower Directive
 
-High-level data-directive component. Doesn't depend on the DOM at all.
-
 ## Installation
 
 node.js:
