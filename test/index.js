@@ -1,7 +1,8 @@
-var binding = 'undefined' == typeof window
-    ? require('..')
-    : require('tower-binding')
-  , assert = require('assert');
+var binding = 'undefined' === typeof window
+  ? require('..')
+  : require('tower-binding');
+
+var assert = require('assert');
 
 describe('binding', function(){
   beforeEach(binding.clear);
