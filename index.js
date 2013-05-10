@@ -74,3 +74,13 @@ exports.clear = function(){
   exports.collection = [];
   return exports;
 }
+
+exports.subscribe = function(fn){
+  exports._subscribe = fn;
+  return exports;
+}
+
+exports.unsubscribe = function(fn){
+  exports._unsubscribe = fn;
+  return exports;
+}
