@@ -40,8 +40,6 @@ function binding(name, fn) {
     this.name = name;
     this.source = source;
     this.target = target;
-    this._bind = Binding._bind;
-    this._unbind = Binding._unbind;
   }
 
   Binding.prototype = {};
@@ -53,7 +51,7 @@ function binding(name, fn) {
   // proto
   for (var key in proto) Binding.prototype[key] = proto[key];
 
-  if (fn) Binding._bind = fn;
+  if (fn) Binding.prototype._bind = fn;
 
   exports.collection[name] = Binding;
   exports.collection.push(Binding);
