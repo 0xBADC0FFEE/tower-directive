@@ -1,7 +1,7 @@
 {
-  "name": "tower-binding",
-  "repo": "tower/binding",
-  "description": "Tower Binding component",
+  "name": "tower-directive",
+  "repo": "tower/directive",
+  "description": "Tower Directive component",
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {

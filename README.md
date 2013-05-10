@@ -1,31 +1,31 @@
-# Tower Binding
+# Tower Directive
 
-High-level data-binding component. Doesn't depend on the DOM at all.
+High-level data-directive component. Doesn't depend on the DOM at all.
 
 ## Installation
 
 node.js:
 
 ```bash
-$ npm install tower-binding
+$ npm install tower-directive
 ```
 
 browser:
 
 ```bash
-$ component install tower/binding
+$ component install tower/directive
 ```
 
 ## Examples
 
 ```js
-var binding = require('tower-binding');
+var directive = require('tower-directive');
 
 var x = { title: 'foo' };
 var y = { title: 'bar' };
 var calls = [];
 
-binding('title')
+directive('title')
   .bind(function(ctx, a, b){
     a.title = b.title;
     calls.push('bind');
@@ -34,7 +34,7 @@ binding('title')
     calls.push('unbind');
   });
 
-binding('title').init(x, y)
+directive('title').init(x, y)
   .bind()
   .unbind();
 
@@ -72,6 +72,12 @@ Tests will run on any open browser linked to the stated url and your current Nod
 ## Contributing
 
 Before you send a pull request, make sure your code meets the style guidelines at [https://github.com/tower/style-guide](https://github.com/tower/style-guide) and all tests pass.
+
+## Notes
+
+- http://en.wikipedia.org/wiki/Scope_(computer_science)
+- http://docs.angularjs.org/guide/directive
+- scope/directive?
 
 ## License
 

@@ -11,7 +11,7 @@ var Emitter = require('tower-emitter')
  * Expose `bind`.
  */
 
-exports = module.exports = binding;
+exports = module.exports = directive;
 
 /**
  * Expose `collection`.
@@ -20,7 +20,7 @@ exports = module.exports = binding;
 exports.collection = [];
 
 /**
- * Get/set binding function.
+ * Get/set directive function.
  *
  * 
  * 
@@ -28,35 +28,43 @@ exports.collection = [];
  * @param {Function} fn
  */
 
-function binding(name, fn) {
+function directive(name, fn) {
   if (undefined === fn && exports.collection[name])
     return exports.collection[name];
 
   /**
-   * Instantiate a new `Binding`.
+   * Instantiate a new `Directive`.
    */
 
-  function Binding(source, target) {
+  function Directive(source, target) {
     this.name = name;
     this.source = source;
     this.target = target;
   }
 
-  Binding.prototype = {};
-  Binding.id = name;
+  Directive.prototype = {};
+  Directive.id = name;
 
   // statics
-  for (var key in statics) Binding[key] = statics[key];
+  for (var key in statics) Directive[key] = statics[key];
 
   // proto
-  for (var key in proto) Binding.prototype[key] = proto[key];
+  for (var key in proto) Directive.prototype[key] = proto[key];
 
-  if (fn) Binding.prototype._bind = fn;
+  if (fn) Directive.prototype._bind = fn;
 
-  exports.collection[name] = Binding;
-  exports.collection.push(Binding);
-  exports.emit('define', Binding);
-  return Binding;
+  exports.collection[name] = Directive;
+  exports.collection.push(Directive);
+  exports.emit('define', Directive);
+  return Directive;
+}
+
+/**
+ * toString.
+ */
+
+exports.toString = function(){
+  return 'directive';
 }
 
 /**
@@ -66,7 +74,7 @@ function binding(name, fn) {
 Emitter(exports);
 
 /**
- * Clear all bindings.
+ * Clear all directives.
  */
 
 exports.clear = function(){

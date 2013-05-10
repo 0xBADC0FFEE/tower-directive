@@ -1,6 +1,6 @@
 {
-  "name": "tower-binding",
-  "description": "Tower Binding component",
+  "name": "tower-directive",
+  "description": "Tower Directive component",
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {

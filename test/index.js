@@ -1,32 +1,34 @@
-var binding = 'undefined' === typeof window
+var directive = 'undefined' === typeof window
   ? require('..')
-  : require('tower-binding');
+  : require('tower-directive');
 
-var assert = require('assert');
+var assert = 'undefined' === typeof window
+  ? require('assert')
+  : require('timoxley-assert');
 
-describe('binding', function(){
-  beforeEach(binding.clear);
+describe('directive', function(){
+  beforeEach(directive.clear);
 
   it('should define', function(done){
-    binding.on('define', function(Binding){
-      assert('property' === Binding.id);
+    directive.on('define', function(Directive){
+      assert('property' === Directive.id);
       done();
     });
 
-    binding('property');
+    directive('property');
   });
 
   it('should bind', function(done){
     var x = { title: 'foo' };
     var y = { title: 'bar' };
 
-    binding('title', function(ctx, a, b){
+    directive('title', function(ctx, a, b){
       a.title = b.title;
       assert('bar' === a.title);
       done();
     });
 
-    var b = binding('title').init(x, y);
+    var b = directive('title').init(x, y);
     assert(x === b.source);
     assert(y === b.target);
     b.bind();
@@ -37,7 +39,7 @@ describe('binding', function(){
     var y = { title: 'bar' };
     var calls = [];
 
-    binding('title')
+    directive('title')
       .bind(function(ctx, a, b){
         a.title = b.title;
         calls.push('bind');
@@ -46,7 +48,7 @@ describe('binding', function(){
         calls.push('unbind');
       });
 
-    binding('title').init(x, y)
+    directive('title').init(x, y)
       .bind()
       .unbind();
 
