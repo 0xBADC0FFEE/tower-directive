@@ -10,6 +10,20 @@ $ component install tower/directive
 
 ```js
 var directive = require('tower-directive');
+
+directive('data-text', function(scope, element, attr){
+  element.setAttribute(attr.name, scope[attr.value]);
+}).exec();
+```
+
+```html
+<span data-text="foo"></span>
+```
+
+becomes:
+
+```html
+<span data-text="foo">Hello World</span>
 ```
 
 ## Running Tests
