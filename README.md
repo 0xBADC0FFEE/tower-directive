@@ -8,7 +8,7 @@ API to the DOM.
 $ component install tower/directive
 ```
 
-## Examples
+## Example
 
 ```js
 var directive = require('tower-directive');
