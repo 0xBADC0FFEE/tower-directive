@@ -3,7 +3,9 @@
  * Module dependencies.
  */
 
-var Emitter = require('tower-emitter');
+var Emitter = require('tower-emitter')
+  , scopes = require('tower-scope')
+  , query = require('query');
 
 /**
  * Expose `directive`.
@@ -50,6 +52,25 @@ exports.toString = function(){
 }
 
 /**
+ * Execute all directives.
+ */
+
+exports.exec = function(scope, element){
+  if (0 === arguments.length) {
+    scope = scopes('root');
+    element = query('body');
+  } else if (!element) {
+    element = query('body');
+  }
+
+  for (var i = 0, n = exports.collection.length; i < n; i++) {
+    exports.collection[i].exec(scope, element);
+  }
+
+  return exports;
+}
+
+/**
  * Mixin `Emitter`.
  */
 
@@ -79,7 +100,28 @@ function Directive(name, fn) {
 }
 
 Directive.prototype.setup = function(fn){
-  this.exec = fn;
+  this._exec = fn;
+  return this;
+}
+
+/**
+ * Apply the directive.
+ *
+ * @param {Scope} scope
+ * @param {DOMNode} element
+ */
+
+Directive.prototype.exec = function(scope, element){
+  var elements = query.all('[' + this.name + ']', element);
+  // XXX: not sure if this should pass each individually or just a block
+  //      (like jQuery object).
+  for (var i = 0, n = elements.length; i < n; i++) {
+    this._exec(scope, elements[i], {
+      name: this.name
+      , value: elements[i].getAttribute(this.name)
+    });
+  }
+
   return this;
 }
 

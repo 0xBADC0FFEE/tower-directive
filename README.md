@@ -12,8 +12,14 @@ $ component install tower/directive
 var directive = require('tower-directive');
 
 directive('data-text', function(scope, element, attr){
+  element.textContent = scope[attr.value];
+});
+
+directive('data-title', function(scope, element, attr){
   element.setAttribute(attr.name, scope[attr.value]);
-}).exec();
+});
+
+directive.exec();
 ```
 
 ```html
@@ -25,6 +31,20 @@ becomes:
 ```html
 <span data-text="foo">Hello World</span>
 ```
+
+## API
+
+### exec(scope, element)
+
+This one must be exact to maximize performance.
+
+### directive.exec(scope, element)
+
+Globally execute all directives.
+
+### directive.exec(scope)
+### directive.exec(element)
+### directive.exec()
 
 ## Running Tests
 
