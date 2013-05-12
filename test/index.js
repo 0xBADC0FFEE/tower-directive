@@ -55,4 +55,8 @@ describe('directive', function(){
   it('should print "directive" on exports.toString()', function(){
     assert('directive' === directive.toString());
   });
+
+  after(function(){
+    document.body.removeChild(query('#tests'));
+  });
 });
