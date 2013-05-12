@@ -8,7 +8,8 @@
     "tower/emitter": "*",
     "tower/scope": "*",
     "component/query": "*",
-    "component/event": "*"
+    "component/event": "*",
+    "part/is-array": "*"
   },
   "development": {
     "visionmedia/mocha": "*",

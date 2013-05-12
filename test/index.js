@@ -99,7 +99,13 @@ describe('directive', function(){
     });
   });
 
+  describe('compile', function(){
+    it('should compile directives', function(){
+      directive.compile(query('#directives'));
+    });
+  });
+
   after(function(){
-    document.body.removeChild(query('#tests'));
+    //document.body.removeChild(query('#tests'));
   });
 });

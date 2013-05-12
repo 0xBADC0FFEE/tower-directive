@@ -6,7 +6,8 @@
 var Emitter = require('tower-emitter')
   , scopes = require('tower-scope')
   , query = require('query')
-  , directives = require('./lib/directives');
+  , directives = require('./lib/directives')
+  , compile = require('./lib/compile');
 
 /**
  * Expose `directive`.
@@ -25,6 +26,13 @@ exports.collection = [];
  */
 
 exports.Directive = Directive;
+
+/**
+ * Expose `compile`.
+ */
+
+exports.compile = compile;
+compile.directive = exports; // XXX: tmp circular
 
 /**
  * Get/set directive function.
@@ -136,6 +144,19 @@ Directive.prototype.exec = function(scope, element){
     });
   }
 
+  return this;
+}
+
+/**
+ * A custom scope to add to elements with this directive.
+ *
+ * @param {String} name
+ * @return {Directive} self
+ * @api public
+ */
+
+Directive.prototype.scope = function(name){
+  this._scope = name;
   return this;
 }
 
