@@ -8,7 +8,7 @@ API to the DOM.
 $ component install tower/directive
 ```
 
-## Example
+## Examples
 
 ```js
 var directive = require('tower-directive');
@@ -21,6 +21,17 @@ var scope = { foo: 'Hello World' };
 var element = document.querySelector('#example');
 
 directive('data-text').exec(scope, element);
+```
+
+TODO: Directive with a custom `compile` function. Compiling is useful for the `data-each` and perhaps a few others, where you take a template node and return the executable function for each new DOM node.
+
+```js
+directive('data-each')
+  .compiler(function(element, attr, fn){
+    return function(scope, element, attr) {
+
+    }
+  });
 ```
 
 ```html

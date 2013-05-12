@@ -91,11 +91,18 @@ exports.clear = function(){
 function Directive(name, fn) {
   this.name = name;
   this._priority = 0;
-  if (fn) this.setup(fn);
+  this.compile = compile;
+  if (fn) this._exec = fn;
 }
 
-Directive.prototype.setup = function(fn){
-  this._exec = fn;
+/**
+ * Compile the directive (for optimization).
+ *
+ * @param {Function} fn
+ */
+
+Directive.prototype.compiler = function(fn){
+  this.compile = fn;
   return this;
 }
 
@@ -139,7 +146,7 @@ Directive.prototype.scope = function(name){
  * Comment/Script/Element/Text
  */
 
-Directive.prototype.only = function(){
+Directive.prototype.access = function(){
   return this;
 }
 
@@ -170,3 +177,11 @@ Directive.prototype.toString = function(){
  */
 
 directives(exports);
+
+/**
+ * Default `compile`.
+ */
+
+function compile() {
+
+}
