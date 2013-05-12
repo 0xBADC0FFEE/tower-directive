@@ -5,9 +5,7 @@
 
 var Emitter = require('tower-emitter')
   , scopes = require('tower-scope')
-  , query = require('query')
-  , directives = require('./lib/directives')
-  , compile = require('./lib/compile');
+  , directives = require('./lib/directives');
 
 /**
  * Expose `directive`.
@@ -26,12 +24,6 @@ exports.collection = [];
  */
 
 exports.Directive = Directive;
-
-/**
- * XXX: tmp circular
- */
-
-compile.directive = exports;
 
 /**
  * Get/set directive function.
@@ -67,25 +59,6 @@ exports.defined = function(name){
 
 exports.toString = function(){
   return 'directive';
-}
-
-/**
- * Execute all directives.
- */
-
-exports.compile = function(scope, element){
-  if (0 === arguments.length) {
-    scope = scopes.root();
-    element = query('body');
-  } else if (!element) {
-    element = query('body');
-  }
-
-  if (!scope) scope = scopes.root();
-
-  compile(element, scope);
-
-  return exports;
 }
 
 /**
@@ -134,8 +107,10 @@ Directive.prototype.setup = function(fn){
  */
 
 Directive.prototype.exec = function(scope, element){
-  // XXX: not sure if this should pass each individually or just a block
-  //      (like jQuery object).
+  // way to quickly access scope on element later.
+  // XXX: pretty sure if the element gets removed,
+  //      this won't create a memory leak.
+  element.__scope__ = scope;
 
   this._exec(scope, element, {
       name: this.name

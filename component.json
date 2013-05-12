@@ -7,17 +7,15 @@
   "dependencies": {
     "tower/emitter": "*",
     "tower/scope": "*",
-    "component/query": "*",
-    "component/event": "*",
-    "part/is-array": "*"
+    "component/event": "*"
   },
   "development": {
     "visionmedia/mocha": "*",
-    "timoxley/assert": "*"
+    "timoxley/assert": "*",
+    "component/query": "*"
   },
   "scripts": [
     "index.js",
-    "lib/compile.js",
     "lib/directives.js"
   ],
   "license": "MIT"
