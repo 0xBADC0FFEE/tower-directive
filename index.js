@@ -136,7 +136,7 @@ Directive.prototype.exec = function(scope, element){
  */
 
 Directive.prototype.scope = function(name){
-  this._scope = name;
+  this._scope = undefined === name ? true : name;
   return this;
 }
 
