@@ -28,11 +28,10 @@ exports.collection = [];
 exports.Directive = Directive;
 
 /**
- * Expose `compile`.
+ * XXX: tmp circular
  */
 
-exports.compile = compile;
-compile.directive = exports; // XXX: tmp circular
+compile.directive = exports;
 
 /**
  * Get/set directive function.
@@ -74,7 +73,7 @@ exports.toString = function(){
  * Execute all directives.
  */
 
-exports.exec = function(scope, element){
+exports.compile = function(scope, element){
   if (0 === arguments.length) {
     scope = scopes.root();
     element = query('body');
@@ -84,7 +83,7 @@ exports.exec = function(scope, element){
 
   if (!scope) scope = scopes.root();
 
-  exports.compile(element, scope);
+  compile(element, scope);
 
   return exports;
 }

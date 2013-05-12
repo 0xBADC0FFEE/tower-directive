@@ -32,7 +32,7 @@ describe('directive', function(){
       element.setAttribute('title', scope[attr.value]);
     });
 
-    directive.exec(scope('random').init({ foo: 'Foo', bar: 'Bar' }));
+    directive.compile(scope('random').init({ foo: 'Foo', bar: 'Bar' }));
 
     assert('Foo' === query('#should-execute-all').title);
     assert('Bar' === query('#should-execute-all span').textContent);
@@ -45,7 +45,7 @@ describe('directive', function(){
 
     scope.root().set('foo', 'Hello World');
 
-    directive.exec();
+    directive.compile();
 
     assert('Hello World' === query('#should-use-root-scope').innerHTML);
   });
@@ -69,7 +69,7 @@ describe('directive', function(){
       assert(true === directive.defined('data-text'));
       var root = scope.root();
       root.set('textDirective', 'Text Directive');
-      directive.exec(root, query('#directives'));
+      directive.compile(root, query('#directives'));
       assert('Text Directive' === query('#data-text-directive span').textContent);
     });
 
@@ -78,7 +78,7 @@ describe('directive', function(){
       assert(true === directive.defined('data-title'));
       var root = scope.root();
       root.set('attrDirective', 'Attribute Directive');
-      directive.exec(root, query('#directives'));
+      directive.compile(root, query('#directives'));
       assert('Attribute Directive' === query('#data-attr-directive a').title);
     });
 
@@ -88,7 +88,7 @@ describe('directive', function(){
       root.set('eventDirective', function(){
         done();
       });
-      directive.exec(root, query('#directives'));
+      directive.compile(root, query('#directives'));
 
       var event = document.createEvent('UIEvent');
       event.initUIEvent('click', true, true);

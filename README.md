@@ -21,7 +21,7 @@ directive('data-title', function(scope, element, attr){
   element.setAttribute('title', scope[attr.value]);
 });
 
-directive.exec();
+directive.compile();
 ```
 
 ```html
