@@ -12,9 +12,7 @@
     "timoxley/assert": "*"
   },
   "scripts": [
-    "index.js",
-    "lib/proto.js",
-    "lib/statics.js"
+    "index.js"
   ],
   "license": "MIT"
 }

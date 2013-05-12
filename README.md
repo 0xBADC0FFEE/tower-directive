@@ -1,7 +1,5 @@
 # Tower Directive
 
-The directive only needs to be an instance (it seems).
-
 ## Installation
 
 ```bash

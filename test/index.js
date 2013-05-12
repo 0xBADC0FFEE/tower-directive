@@ -10,8 +10,8 @@ describe('directive', function(){
   beforeEach(directive.clear);
 
   it('should define', function(done){
-    directive.on('define', function(Directive){
-      assert('property' === Directive.id);
+    directive.on('define', function(instance){
+      assert('property' === instance.name);
       done();
     });
 
@@ -21,6 +21,6 @@ describe('directive', function(){
   it('should execute', function(done){
     directive('data-title', function(scope, element){
       done();
-    }).init().exec();
+    }).exec();
   });
 });

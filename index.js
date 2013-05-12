@@ -3,12 +3,10 @@
  * Module dependencies.
  */
 
-var Emitter = require('tower-emitter')
-  , proto = require('./lib/proto')
-  , statics = require('./lib/statics');
+var Emitter = require('tower-emitter');
 
 /**
- * Expose `bind`.
+ * Expose `directive`.
  */
 
 exports = module.exports = directive;
@@ -18,6 +16,12 @@ exports = module.exports = directive;
  */
 
 exports.collection = [];
+
+/**
+ * Expose `Directive`.
+ */
+
+exports.Directive = Directive;
 
 /**
  * Get/set directive function.
@@ -30,39 +34,11 @@ function directive(name, fn) {
   if (undefined === fn && exports.collection[name])
     return exports.collection[name];
 
-  /**
-   * Instantiate a new `Directive`.
-   *
-   * @param {Scope} scope
-   * @param {DOMElement} element
-   * @api private
-   */
-
-  function Directive(scope, element) {
-    this.name = name;
-    this.scope = scope;
-    this.element = element;
-  }
-
-  Directive.prototype = {};
-  Directive.id = name;
-
-  // statics
-  for (var key in statics) Directive[key] = statics[key];
-
-  // proto
-  for (var key in proto) Directive.prototype[key] = proto[key];
-
-  Directive.toString = function(){
-    return 'directive("' + name + '")';
-  }
-
-  if (fn) Directive.exec(fn);
-
-  exports.collection[name] = Directive;
-  exports.collection.push(Directive);
-  exports.emit('define', Directive);
-  return Directive;
+  var instance = new Directive(name, fn);
+  exports.collection[name] = instance;
+  exports.collection.push(instance);
+  exports.emit('define', instance);
+  return instance;
 }
 
 /**
@@ -89,12 +65,38 @@ exports.clear = function(){
   return exports;
 }
 
-exports.subscribe = function(fn){
-  exports._subscribe = fn;
-  return exports;
+/**
+ * Instantiate a new `Directive`.
+ *
+ * @param {String} name
+ * @param {Function} [fn]
+ * @api private
+ */
+
+function Directive(name, fn) {
+  this.name = name;
+  if (fn) this.setup(fn);
 }
 
-exports.unsubscribe = function(fn){
-  exports._unsubscribe = fn;
-  return exports;
+Directive.prototype.setup = function(fn){
+  this.exec = fn;
+  return this;
+}
+
+/**
+ * XXX: The only types of elements this can be defined on.
+ *
+ * Comment/Script/Element/Text
+ */
+
+Directive.prototype.only = function(){
+  return this;
+}
+
+/**
+ * toString.
+ */
+
+Directive.prototype.toString = function(){
+  return 'directive("' + name + '")';
 }
