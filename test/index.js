@@ -1,7 +1,8 @@
 var directive = require('tower-directive')
   , scope = require('tower-scope')
   , query = require('component-query')
-  , assert = require('timoxley-assert');
+  , assert = require('timoxley-assert')
+  , collection = directive.collection;
 
 describe('directive', function(){
   beforeEach(directive.clear);
@@ -54,6 +55,53 @@ describe('directive', function(){
 
   it('should print "directive" on exports.toString()', function(){
     assert('directive' === directive.toString());
+  });
+
+  it('should return `true` if `defined`', function(){
+    assert(false === directive.defined('data-random'));
+    directive('data-random', function(){});
+    assert(true === directive.defined('data-random'));
+  });
+
+  describe('directives', function(){
+    beforeEach(function(){
+      directive.collection = collection;
+    });
+
+    it('should have `data-text`', function(){
+      assert(true === directive.defined('data-text'));
+      var root = scope.root();
+      root.set('textDirective', 'Text Directive');
+      directive.exec(root, query('#directives'));
+      assert('Text Directive' === query('#data-text-directive span').textContent);
+    });
+
+    // XXX: should iterate through all to test them all.
+    it('should have `data-[attr]`', function(){
+      assert(true === directive.defined('data-title'));
+      var root = scope.root();
+      root.set('attrDirective', 'Attribute Directive');
+      directive.exec(root, query('#directives'));
+      assert('Attribute Directive' === query('#data-attr-directive a').title);
+    });
+
+    it('should have event directives `on-[event]`', function(done){
+      assert(true === directive.defined('on-click'));
+      var root = scope.root();
+      root.set('eventDirective', function(){
+        // XXX: works, but need to tear down previous ones.
+        console.log('exec!', arguments);
+        done();
+      });
+      directive.exec(root, query('#directives'));
+
+      var event = document.createEvent('UIEvent');
+      event.initUIEvent('click', true, true);
+      event.clientX = 5;
+      event.clientY = 10;
+      event.passThrough = 'foo';
+      query('#data-event-directive a').dispatchEvent(event);
+    });
   });
 
   after(function(){

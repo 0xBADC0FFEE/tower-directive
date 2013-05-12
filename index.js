@@ -5,7 +5,8 @@
 
 var Emitter = require('tower-emitter')
   , scopes = require('tower-scope')
-  , query = require('query');
+  , query = require('query')
+  , directives = require('./lib/directives');
 
 /**
  * Expose `directive`.
@@ -41,6 +42,16 @@ function directive(name, fn) {
   exports.collection.push(instance);
   exports.emit('define', instance);
   return instance;
+}
+
+/**
+ * Check if directive is defined.
+ *
+ * XXX: defined vs. has vs. exists?
+ */
+
+exports.defined = function(name){
+  return exports.collection.hasOwnProperty(name);
 }
 
 /**
@@ -144,3 +155,9 @@ Directive.prototype.only = function(){
 Directive.prototype.toString = function(){
   return 'directive("' + this.name + '")';
 }
+
+/**
+ * Define base directives.
+ */
+
+directives(exports);

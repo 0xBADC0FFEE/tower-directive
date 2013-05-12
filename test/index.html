@@ -9,6 +9,18 @@
     <div id="tests">
       <a id="should-execute-all" href="/" data-title="foo"><span data-text="bar"></span></a>
       <p id="should-use-root-scope" href="/" data-html="foo"></p>
+
+      <div id="directives">
+        <div id="data-text-directive">
+          <span data-text="textDirective"></span>
+        </div>
+        <div id="data-attr-directive">
+          <a href="/" data-title="attrDirective"></a>
+        </div>
+        <div id="data-event-directive">
+          <a href="/" on-click="eventDirective"></a>
+        </div>
+      </div>
     </div>
     <div id="mocha"></div>
     <div id='parent'>
