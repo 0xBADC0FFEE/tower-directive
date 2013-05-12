@@ -17,22 +17,20 @@ directive('data-text', function(scope, element, attr){
   element.textContent = scope[attr.value];
 });
 
-directive('data-title', function(scope, element, attr){
-  element.setAttribute('title', scope[attr.value]);
-});
-
-directive.compile();
+directive('data-text').exec({ foo: 'Hello World' }, document.querySelector('#example'));
 ```
 
 ```html
-<span data-text="foo"></span>
+<span id="example" data-text="foo"></span>
 ```
 
 becomes:
 
 ```html
-<span data-text="foo">Hello World</span>
+<span id="example" data-text="foo">Hello World</span>
 ```
+
+The directives are used more robustly in [tower-template](https://github.com/tower/template).
 
 ## API
 
