@@ -142,5 +142,5 @@ Directive.prototype.only = function(){
  */
 
 Directive.prototype.toString = function(){
-  return 'directive("' + name + '")';
+  return 'directive("' + this.name + '")';
 }

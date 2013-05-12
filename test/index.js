@@ -44,7 +44,15 @@ describe('directive', function(){
     scope.root().set('foo', 'Hello World');
 
     directive.exec();
-    
+
     assert('Hello World' === query('#should-use-root-scope').innerHTML);
+  });
+
+  it('should print "directive(name)" on instance.toString()', function(){
+    assert('directive("data-text")' === directive('data-text').toString());
+  });
+
+  it('should print "directive" on exports.toString()', function(){
+    assert('directive' === directive.toString());
   });
 });
