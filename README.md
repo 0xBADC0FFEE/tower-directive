@@ -1,5 +1,7 @@
 # Tower Directive
 
+API to the DOM.
+
 ## Installation
 
 ```bash
