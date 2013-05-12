@@ -21,8 +21,6 @@ exports.collection = [];
 
 /**
  * Get/set directive function.
- *
- * 
  * 
  * @param {String} name
  * @param {Function} fn
@@ -34,12 +32,16 @@ function directive(name, fn) {
 
   /**
    * Instantiate a new `Directive`.
+   *
+   * @param {Scope} scope
+   * @param {DOMElement} element
+   * @api private
    */
 
-  function Directive(source, target) {
+  function Directive(scope, element) {
     this.name = name;
-    this.source = source;
-    this.target = target;
+    this.scope = scope;
+    this.element = element;
   }
 
   Directive.prototype = {};
@@ -51,7 +53,11 @@ function directive(name, fn) {
   // proto
   for (var key in proto) Directive.prototype[key] = proto[key];
 
-  if (fn) Directive.prototype._bind = fn;
+  Directive.toString = function(){
+    return 'directive("' + name + '")';
+  }
+
+  if (fn) Directive.exec(fn);
 
   exports.collection[name] = Directive;
   exports.collection.push(Directive);
@@ -78,7 +84,7 @@ Emitter(exports);
  */
 
 exports.clear = function(){
-  exports.off('define');
+  exports.off();
   exports.collection = [];
   return exports;
 }

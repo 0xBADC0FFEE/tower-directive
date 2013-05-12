@@ -2,14 +2,6 @@
 
 ## Installation
 
-node.js:
-
-```bash
-$ npm install tower-directive
-```
-
-browser:
-
 ```bash
 $ component install tower/directive
 ```
@@ -18,28 +10,9 @@ $ component install tower/directive
 
 ```js
 var directive = require('tower-directive');
-
-var x = { title: 'foo' };
-var y = { title: 'bar' };
-var calls = [];
-
-directive('title')
-  .bind(function(ctx, a, b){
-    a.title = b.title;
-    calls.push('bind');
-  })
-  .unbind(function(ctx, a, b){
-    calls.push('unbind');
-  });
-
-directive('title').init(x, y)
-  .bind()
-  .unbind();
-
-assert('bind,unbind' === calls.join(','));
 ```
 
-## Testing
+## Running Tests
 
 Install testem:
 
@@ -48,11 +21,13 @@ $ npm install -g testem
 ```
 
 Install Node Packages:
+
 ```bash
 $ npm link
 ```
 
 Install Components:
+
 ```bash
 $ component install -d
 ```

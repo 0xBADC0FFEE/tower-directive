@@ -18,40 +18,9 @@ describe('directive', function(){
     directive('property');
   });
 
-  it('should bind', function(done){
-    var x = { title: 'foo' };
-    var y = { title: 'bar' };
-
-    directive('title', function(ctx, a, b){
-      a.title = b.title;
-      assert('bar' === a.title);
+  it('should execute', function(done){
+    directive('data-title', function(scope, element){
       done();
-    });
-
-    var b = directive('title').init(x, y);
-    assert(x === b.source);
-    assert(y === b.target);
-    b.bind();
-  });
-
-  it('should allow setup/teardown', function(){
-    var x = { title: 'foo' };
-    var y = { title: 'bar' };
-    var calls = [];
-
-    directive('title')
-      .bind(function(ctx, a, b){
-        a.title = b.title;
-        calls.push('bind');
-      })
-      .unbind(function(ctx, a, b){
-        calls.push('unbind');
-      });
-
-    directive('title').init(x, y)
-      .bind()
-      .unbind();
-
-    assert('bind,unbind' === calls.join(','));
+    }).init().exec();
   });
 });
