@@ -16,7 +16,7 @@ directive('data-text', function(scope, element, attr){
 });
 
 directive('data-title', function(scope, element, attr){
-  element.setAttribute(attr.name, scope[attr.value]);
+  element.setAttribute('title', scope[attr.value]);
 });
 
 directive.exec();
