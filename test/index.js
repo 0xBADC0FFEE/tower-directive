@@ -1,6 +1,7 @@
 var directive = require('tower-directive')
-  , assert = require('timoxley-assert')
-  , query = require('component-query');
+  , scope = require('tower-scope')
+  , query = require('component-query')
+  , assert = require('timoxley-assert');
 
 describe('directive', function(){
   beforeEach(directive.clear);
@@ -33,5 +34,17 @@ describe('directive', function(){
 
     assert('Foo' === query('#should-execute-all').title);
     assert('Bar' === query('#should-execute-all span').textContent);
+  });
+
+  it('should use `scope("root")` if none is passed in', function(){
+    directive('data-html', function(scope, element, attr){
+      element.innerHTML = scope[attr.value];
+    });
+
+    scope.root().set('foo', 'Hello World');
+
+    directive.exec();
+    
+    assert('Hello World' === query('#should-use-root-scope').innerHTML);
   });
 });

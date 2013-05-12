@@ -57,11 +57,13 @@ exports.toString = function(){
 
 exports.exec = function(scope, element){
   if (0 === arguments.length) {
-    scope = scopes('root');
+    scope = scopes.root();
     element = query('body');
   } else if (!element) {
     element = query('body');
   }
+
+  if (!scope) scope = scopes.root();
 
   for (var i = 0, n = exports.collection.length; i < n; i++) {
     exports.collection[i].exec(scope, element);
