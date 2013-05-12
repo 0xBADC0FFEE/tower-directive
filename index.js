@@ -118,6 +118,7 @@ exports.clear = function(){
 
 function Directive(name, fn) {
   this.name = name;
+  this._priority = 0;
   if (fn) this.setup(fn);
 }
 
@@ -167,6 +168,20 @@ Directive.prototype.scope = function(name){
  */
 
 Directive.prototype.only = function(){
+  return this;
+}
+
+/**
+ * Sorting priority.
+ *
+ * Higher means it gets moved toward the front.
+ *
+ * @param {Integer} val Defaults to 0.
+ * @return {Directive} self
+ */
+
+Directive.prototype.priority = function(val){
+  this._priority = val;
   return this;
 }
 
