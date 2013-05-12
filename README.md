@@ -17,7 +17,10 @@ directive('data-text', function(scope, element, attr){
   element.textContent = scope[attr.value];
 });
 
-directive('data-text').exec({ foo: 'Hello World' }, document.querySelector('#example'));
+var scope = { foo: 'Hello World' };
+var element = document.querySelector('#example');
+
+directive('data-text').exec(scope, element);
 ```
 
 ```html
