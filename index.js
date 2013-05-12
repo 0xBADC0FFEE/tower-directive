@@ -84,9 +84,7 @@ exports.exec = function(scope, element){
 
   if (!scope) scope = scopes.root();
 
-  for (var i = 0, n = exports.collection.length; i < n; i++) {
-    exports.collection[i].exec(scope, element);
-  }
+  exports.compile(element, scope);
 
   return exports;
 }
@@ -103,6 +101,8 @@ Emitter(exports);
 
 exports.clear = function(){
   exports.off();
+  // recursively emit `"remove"`.
+  scopes.clear();
   exports.collection = [];
   directives(exports);
   return exports;

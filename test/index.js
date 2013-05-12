@@ -15,10 +15,12 @@ describe('directive', function(){
     directive('property');
   });
 
-  /*it('should execute', function(done){
-    directive('data-title', function(scope, element){
+  it('should execute', function(done){
+    directive('data-title', function(ctx, element){
+      assert(scope.root() === ctx);
+      assert(query('#mocha') === element);
       done();
-    }).exec();
+    }).exec(scope.root(), query('#mocha'));
   });
 
   it('should execute all', function(){
@@ -30,7 +32,7 @@ describe('directive', function(){
       element.setAttribute('title', scope[attr.value]);
     });
 
-    directive.exec({ foo: 'Foo', bar: 'Bar' });
+    directive.exec(scope('random').init({ foo: 'Foo', bar: 'Bar' }));
 
     assert('Foo' === query('#should-execute-all').title);
     assert('Bar' === query('#should-execute-all span').textContent);
@@ -84,8 +86,6 @@ describe('directive', function(){
       assert(true === directive.defined('on-click'));
       var root = scope.root();
       root.set('eventDirective', function(){
-        // XXX: works, but need to tear down previous ones.
-        console.log('exec!', arguments);
         done();
       });
       directive.exec(root, query('#directives'));
@@ -97,7 +97,7 @@ describe('directive', function(){
       event.passThrough = 'foo';
       query('#data-event-directive a').dispatchEvent(event);
     });
-  });*/
+  });
 
   describe('compile', function(){
     it('should compile directives', function(){
@@ -109,6 +109,6 @@ describe('directive', function(){
   });
 
   after(function(){
-    //document.body.removeChild(query('#tests'));
+    document.body.removeChild(query('#tests'));
   });
 });
