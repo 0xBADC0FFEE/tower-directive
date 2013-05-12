@@ -22,4 +22,18 @@ describe('directive', function(){
       done();
     }).exec(scope.root(), query('#mocha'));
   });
+  
+  it('should print "directive(name)" on instance.toString()', function(){
+    assert('directive("data-text")' === directive('data-text').toString());
+  });
+
+  it('should print "directive" on exports.toString()', function(){
+    assert('directive' === directive.toString());
+  });
+
+  it('should return `true` if `defined`', function(){
+    assert(false === directive.defined('data-random'));
+    directive('data-random', function(){});
+    assert(true === directive.defined('data-random'));
+  });
 });
