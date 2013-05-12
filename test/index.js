@@ -1,8 +1,7 @@
 var directive = require('tower-directive')
   , scope = require('tower-scope')
   , query = require('component-query')
-  , assert = require('timoxley-assert')
-  , collection = directive.collection;
+  , assert = require('timoxley-assert');
 
 describe('directive', function(){
   beforeEach(directive.clear);
@@ -64,10 +63,6 @@ describe('directive', function(){
   });
 
   describe('directives', function(){
-    beforeEach(function(){
-      directive.collection = collection;
-    });
-
     it('should have `data-text`', function(){
       assert(true === directive.defined('data-text'));
       var root = scope.root();

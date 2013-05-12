@@ -96,6 +96,7 @@ Emitter(exports);
 exports.clear = function(){
   exports.off();
   exports.collection = [];
+  directives(exports);
   return exports;
 }
 
