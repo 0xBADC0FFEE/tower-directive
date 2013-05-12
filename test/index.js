@@ -15,7 +15,7 @@ describe('directive', function(){
     directive('property');
   });
 
-  it('should execute', function(done){
+  /*it('should execute', function(done){
     directive('data-title', function(scope, element){
       done();
     }).exec();
@@ -97,11 +97,14 @@ describe('directive', function(){
       event.passThrough = 'foo';
       query('#data-event-directive a').dispatchEvent(event);
     });
-  });
+  });*/
 
   describe('compile', function(){
     it('should compile directives', function(){
-      directive.compile(query('#directives'));
+      var root = scope.root();
+      root.textDirective = 'Text Directive!';
+      root.attrDirective = 'Attr Directive!';
+      directive.compile(query('#compile'), root);
     });
   });
 

@@ -135,15 +135,13 @@ Directive.prototype.setup = function(fn){
  */
 
 Directive.prototype.exec = function(scope, element){
-  var elements = query.all('[' + this.name + ']', element);
   // XXX: not sure if this should pass each individually or just a block
   //      (like jQuery object).
-  for (var i = 0, n = elements.length; i < n; i++) {
-    this._exec(scope, elements[i], {
+
+  this._exec(scope, element, {
       name: this.name
-      , value: elements[i].getAttribute(this.name)
-    });
-  }
+    , value: element.getAttribute(this.name)
+  });
 
   return this;
 }
