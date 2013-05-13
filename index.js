@@ -97,11 +97,11 @@ function Directive(name, fn) {
 /**
  * Apply the directive.
  *
- * @param {Scope} scope
  * @param {DOMNode} element
+ * @param {Scope} scope
  */
 
-Directive.prototype.exec = function(scope, element){
+Directive.prototype.exec = function(element, scope){
   // way to quickly access scope on element later.
   // XXX: pretty sure if the element gets removed,
   //      this won't create a memory leak.

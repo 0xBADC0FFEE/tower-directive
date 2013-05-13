@@ -21,7 +21,7 @@ describe('directive', function(){
       assert(scope.root() === ctx);
       assert(query('#mocha') === element);
       done();
-    }).exec(scope.root(), query('#mocha'));
+    }).exec(query('#mocha'), scope.root());
 
     assert(scope.root() === result);
   });
@@ -45,7 +45,7 @@ describe('directive', function(){
 
     var result = directive('data-title', function(ctx, element){
       return custom;
-    }).exec(scope.root(), query('#mocha'));
+    }).exec(query('#mocha'), scope.root());
 
     assert(custom === result);
   });
