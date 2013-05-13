@@ -115,19 +115,6 @@ Directive.prototype.exec = function(element, scope){
 }
 
 /**
- * A custom scope to add to elements with this directive.
- *
- * @param {String} name
- * @return {Directive} self
- * @api public
- */
-
-Directive.prototype.scope = function(name){
-  this._scope = undefined === name ? true : name;
-  return this;
-}
-
-/**
  * XXX: The only types of elements this can be defined on.
  *
  * Comment/Script/Element/Text
