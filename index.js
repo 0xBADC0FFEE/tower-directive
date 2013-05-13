@@ -119,12 +119,11 @@ Directive.prototype.exec = function(scope, element){
   //      this won't create a memory leak.
   element.__scope__ = scope;
 
-  this._exec(scope, element, {
+  // return a scope.
+  return this._exec(scope, element, {
       name: this.name
     , value: element.getAttribute(this.name)
-  });
-
-  return this;
+  }) || scope;
 }
 
 /**
