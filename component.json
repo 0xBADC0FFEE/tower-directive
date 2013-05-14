@@ -8,8 +8,7 @@
     "tower/emitter": "*",
     "tower/scope": "*",
     "tower/expression": "*",
-    "component/event": "*",
-    "component/keyname": "*"
+    "component/event": "*"
   },
   "development": {
     "visionmedia/mocha": "*",
