@@ -97,6 +97,9 @@ function Directive(name, fn) {
 /**
  * Apply the directive.
  *
+ * This one (compared to `compile`)
+ * is useful for testing. It is slightly less optimized.
+ *
  * @param {DOMNode} element
  * @param {Scope} scope
  */
@@ -107,6 +110,7 @@ Directive.prototype.exec = function(element, scope){
   //      this won't create a memory leak.
   element.__scope__ = scope;
   var attr = this._compileAttr(element);
+  if (!scopes.is(scope)) scope = scopes('anonymous').init(scope);
 
   // return a scope.
   return this._exec(scope, element, attr) || scope;

@@ -22,8 +22,6 @@ describe('directive', function(){
       assert(query('#mocha') === element);
       done();
     }).exec(query('#mocha'), scope.root());
-
-    assert(scope.root() === result);
   });
   
   it('should print "directive(name)" on instance.toString()', function(){
