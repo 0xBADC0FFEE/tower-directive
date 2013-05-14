@@ -47,4 +47,22 @@ describe('directive', function(){
 
     assert(custom === result);
   });
+
+  describe('expressions', function(){
+    it('should handle operator expressions', function(){
+      var element = query('#operator-expression');
+      directive('data-operator-expression', function(ctx, element, attr){
+        if (attr.expression(ctx)) {
+          element.textContent = 'Count is greater than 10';
+        } else {
+          element.textContent = 'Count is not greater than 10';
+        }
+      });
+
+      directive('data-operator-expression').exec(element, { count: 20 });
+      assert('Count is greater than 10' === element.textContent);
+      directive('data-operator-expression').exec(element, { count: 5 });
+      assert('Count is not greater than 10' === element.textContent);
+    });
+  });
 });

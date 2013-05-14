@@ -5,7 +5,9 @@
 
 var Emitter = require('tower-emitter')
   , scopes = require('tower-scope')
-  , directives = require('./lib/directives');
+  , expression = require('tower-expression')
+  , directives = require('./lib/directives')
+  , noop = function(){};
 
 /**
  * Expose `directive`.
@@ -150,9 +152,11 @@ Directive.prototype.types = function(){
  */
 
 Directive.prototype._compileAttr = function(element){
+  var val = element.getAttribute(this.name);
   return {
       name: this.name
-    , value: element.getAttribute(this.name)
+    , value: val // raw value
+    , expression: val ? expression(val) : noop
   };
 }
 
