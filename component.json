@@ -17,6 +17,7 @@
   },
   "scripts": [
     "index.js",
+    "lib/directives.js",
     "lib/directives.js"
   ],
   "license": "MIT"

@@ -5,7 +5,8 @@
 
 var Emitter = require('tower-emitter')
   , scopes = require('tower-scope')
-  , directives = require('./lib/directives');
+  , directives = require('./lib/directives')
+  , expression = require('./lib/expression');
 
 /**
  * Expose `directive`.
@@ -24,6 +25,12 @@ exports.collection = [];
  */
 
 exports.Directive = Directive;
+
+/**
+ * Expose `expression`.
+ */
+
+exports.expression = expression;
 
 /**
  * Get/set directive function.
