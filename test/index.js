@@ -64,5 +64,22 @@ describe('directive', function(){
       directive('data-operator-expression').exec(element, { count: 5 });
       assert('Count is not greater than 10' === element.textContent);
     });
+
+    it('should handle function(arg) expressions', function(done){
+      var element = query('#fn-arg-expression');
+      directive('data-fn-arg-expression', function(ctx, element, attr){
+        attr.expression(ctx);
+      });
+
+      scope('todos')
+        .attr('todo', 'object')
+        .action('create', function(todo){
+          assert('A todo!' === todo.title);
+          done();
+        });
+
+      var ctx = scope('todos').init({ todo: { title: 'A todo!' } });
+      directive('data-fn-arg-expression').exec(element, ctx);
+    });
   });
 });
