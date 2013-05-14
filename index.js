@@ -106,12 +106,26 @@ Directive.prototype.exec = function(element, scope){
   // XXX: pretty sure if the element gets removed,
   //      this won't create a memory leak.
   element.__scope__ = scope;
+  var attr = this._compileAttr(element);
 
   // return a scope.
-  return this._exec(scope, element, {
-      name: this.name
-    , value: element.getAttribute(this.name)
-  }) || scope;
+  return this._exec(scope, element, attr) || scope;
+}
+
+/**
+ * Return optimized function for use in templates.
+ *
+ * @param {DOMNode} element Element used for template.
+ */
+
+Directive.prototype.compile = function(element){
+  var self = this;
+  var attr = this._compileAttr(element);
+
+  return function exec(element, scope) {
+    element.__scope__ = scope;
+    return self._exec(scope, element, attr) || scope;
+  }
 }
 
 /**
@@ -122,6 +136,20 @@ Directive.prototype.exec = function(element, scope){
 
 Directive.prototype.types = function(){
   return this;
+}
+
+/**
+ * Compile attribute from element.
+ *
+ * XXX: Maybe this becomes a separate module/object,
+ *      or uses `tower-attr`.
+ */
+
+Directive.prototype._compileAttr = function(element){
+  return {
+      name: this.name
+    , value: element.getAttribute(this.name)
+  };
 }
 
 /**
