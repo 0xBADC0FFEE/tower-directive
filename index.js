@@ -4,10 +4,10 @@
  */
 
 var Emitter = require('tower-emitter')
-  , scopes = require('tower-scope')
-  , expression = require('tower-expression')
-  , directives = require('./lib/directives')
-  , noop = function(){};
+var scopes = require('tower-scope')
+var expression = require('tower-expression')
+var directives = require('./lib/directives')
+var noop = function(){};
 
 /**
  * Expose `directive`.
@@ -46,6 +46,12 @@ function directive(name, fn) {
 }
 
 /**
+ * Mixin `Emitter`.
+ */
+
+Emitter(exports);
+
+/**
  * Check if directive is defined.
  *
  * XXX: defined vs. has vs. exists?
@@ -53,7 +59,7 @@ function directive(name, fn) {
 
 exports.defined = function(name){
   return exports.collection.hasOwnProperty(name);
-}
+};
 
 /**
  * toString.
@@ -61,13 +67,7 @@ exports.defined = function(name){
 
 exports.toString = function(){
   return 'directive';
-}
-
-/**
- * Mixin `Emitter`.
- */
-
-Emitter(exports);
+};
 
 /**
  * Clear all directives.
@@ -80,7 +80,7 @@ exports.clear = function(){
   exports.collection = [];
   directives(exports);
   return exports;
-}
+};
 
 /**
  * Instantiate a new `Directive`.
@@ -116,7 +116,7 @@ Directive.prototype.exec = function(element, scope){
 
   // return a scope.
   return this._exec(scope, element, attr) || scope;
-}
+};
 
 /**
  * Return optimized function for use in templates.
@@ -132,7 +132,7 @@ Directive.prototype.compile = function(element){
     element.__scope__ = scope;
     return self._exec(scope, element, attr) || scope;
   }
-}
+};
 
 /**
  * XXX: The only types of elements this can be defined on.
@@ -142,7 +142,7 @@ Directive.prototype.compile = function(element){
 
 Directive.prototype.types = function(){
   return this;
-}
+};
 
 /**
  * Compile attribute from element.
@@ -158,7 +158,7 @@ Directive.prototype._compileAttr = function(element){
     , value: val // raw value
     , expression: val ? expression(val) : noop
   };
-}
+};
 
 /**
  * Sorting priority.
@@ -172,7 +172,7 @@ Directive.prototype._compileAttr = function(element){
 Directive.prototype.priority = function(val){
   this._priority = val;
   return this;
-}
+};
 
 /**
  * toString.
@@ -180,7 +180,7 @@ Directive.prototype.priority = function(val){
 
 Directive.prototype.toString = function(){
   return 'directive("' + this.name + '")';
-}
+};
 
 /**
  * Define base directives.
