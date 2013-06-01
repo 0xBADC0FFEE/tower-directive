@@ -1,6 +1,6 @@
 
 var directive = require('tower-directive');
-var scope = require('tower-scope');
+var content = require('tower-content');
 var query = require('component-query');
 var assert = require('timoxley-assert');
 
@@ -16,12 +16,12 @@ describe('directive', function(){
     directive('property');
   });
 
-  it('should execute (and return a scope)', function(done){
+  it('should execute (and return a content)', function(done){
     var result = directive('data-title', function(ctx, element){
-      assert(scope.root() === ctx);
+      assert(content.root() === ctx);
       assert(query('#mocha') === element);
       done();
-    }).exec(query('#mocha'), scope.root());
+    }).exec(query('#mocha'), content.root());
   });
   
   it('should print "directive(name)" on instance.toString()', function(){
@@ -38,12 +38,12 @@ describe('directive', function(){
     assert(true === directive.defined('data-random'));
   });
 
-  it('should return a custom scope', function(){
-    var custom = scope('custom').init();
+  it('should return a custom content', function(){
+    var custom = content('custom').init();
 
     var result = directive('data-title', function(ctx, element){
       return custom;
-    }).exec(query('#mocha'), scope.root());
+    }).exec(query('#mocha'), content.root());
 
     assert(custom === result);
   });
@@ -71,14 +71,14 @@ describe('directive', function(){
         attr.expression(ctx);
       });
 
-      scope('todos')
+      content('todos')
         .attr('todo', 'object')
         .action('create', function(todo){
           assert('A todo!' === todo.title);
           done();
         });
 
-      var ctx = scope('todos').init({ todo: { title: 'A todo!' } });
+      var ctx = content('todos').init({ todo: { title: 'A todo!' } });
       directive('data-fn-arg-expression').exec(element, ctx);
     });
   });

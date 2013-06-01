@@ -4,7 +4,7 @@
  */
 
 var Emitter = require('tower-emitter')
-var scopes = require('tower-scope')
+var content = require('tower-content')
 var expression = require('tower-expression')
 var directives = require('./lib/directives')
 var noop = function(){};
@@ -76,7 +76,7 @@ exports.toString = function(){
 exports.clear = function(){
   exports.off();
   // recursively emit `"remove"`.
-  scopes.clear();
+  content.clear();
   exports.collection = [];
   directives(exports);
   return exports;
@@ -103,7 +103,7 @@ function Directive(name, fn) {
  * is useful for testing. It is slightly less optimized.
  *
  * @param {DOMNode} element
- * @param {Scope} scope
+ * @param {Content} scope
  */
 
 Directive.prototype.exec = function(element, scope){
@@ -112,7 +112,7 @@ Directive.prototype.exec = function(element, scope){
   //      this won't create a memory leak.
   element.__scope__ = scope;
   var attr = this._compileAttr(element);
-  if (!scopes.is(scope)) scope = scopes('anonymous').init(scope);
+  if (!content.is(scope)) scope = content('anonymous').init(scope);
 
   // return a scope.
   return this._exec(scope, element, attr) || scope;

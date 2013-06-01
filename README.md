@@ -17,10 +17,10 @@ directive('data-text', function(scope, element, attr){
   element.textContent = scope[attr.value];
 });
 
-var scope = { foo: 'Hello World' };
+var content = { foo: 'Hello World' };
 var element = document.querySelector('#example');
 
-directive('data-text').exec(scope, element);
+directive('data-text').exec(content, element);
 ```
 
 ```html
@@ -37,15 +37,15 @@ The directives are used more robustly in [tower-template](https://github.com/tow
 
 ## API
 
-### exec(scope, element)
+### exec(content, element)
 
 This one must be exact to maximize performance.
 
-### directive.exec(scope, element)
+### directive.exec(content, element)
 
 Globally execute all directives.
 
-### directive.exec(scope)
+### directive.exec(content)
 ### directive.exec(element)
 ### directive.exec()
 
@@ -85,6 +85,7 @@ Before you send a pull request, make sure your code meets the style guidelines a
 
 ## Notes
 
+- http://en.wikipedia.org/wiki/Content_(media)
 - http://en.wikipedia.org/wiki/Scope_(computer_science)
 - http://en.wikipedia.org/wiki/Directive_(programming)
 

@@ -6,7 +6,7 @@
   "keywords": [],
   "dependencies": {
     "tower/emitter": "*",
-    "tower/scope": "*",
+    "tower/directive": "*",
     "tower/expression": "*",
     "component/event": "*",
     "component/value": "*"

@@ -5,6 +5,7 @@
   "keywords": [],
   "dependencies": {
     "tower-emitter": "*",
-    "tower-expression": "*"
+    "tower-expression": "*",
+    "tower-directive": "*"
   }
 }
