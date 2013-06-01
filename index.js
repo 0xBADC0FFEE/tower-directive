@@ -154,9 +154,9 @@ Directive.prototype.types = function(){
 Directive.prototype._compileAttr = function(element){
   var val = element.getAttribute(this.name);
   return {
-      name: this.name
-    , value: val // raw value
-    , expression: val ? expression(val) : noop
+    name: this.name,
+    value: val, // raw value
+    expression: val ? expression(val) : noop
   };
 };
 

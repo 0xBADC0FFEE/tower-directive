@@ -1,8 +1,8 @@
 
-var directive = require('tower-directive')
-  , scope = require('tower-scope')
-  , query = require('component-query')
-  , assert = require('timoxley-assert');
+var directive = require('tower-directive');
+var scope = require('tower-scope');
+var query = require('component-query');
+var assert = require('timoxley-assert');
 
 describe('directive', function(){
   beforeEach(directive.clear);
