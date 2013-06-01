@@ -6,6 +6,6 @@
   "dependencies": {
     "tower-emitter": "*",
     "tower-expression": "*",
-    "tower-directive": "*"
+    "tower-content": "*"
   }
 }
