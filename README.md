@@ -1,6 +1,6 @@
 # Tower Directive
 
-API to the DOM.
+API to the DOM. Tells the DOM what to do.
 
 ## Installation
 

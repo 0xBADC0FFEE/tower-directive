@@ -1,11 +1,11 @@
 {
   "name": "tower-directive",
   "description": "Tower Directive component",
-  "version": "0.0.1",
+  "version": "0.5.0pre",
   "keywords": [],
   "dependencies": {
-    "tower-emitter": "*",
-    "tower-expression": "*",
-    "tower-content": "*"
+    "tower-emitter": "~0.5.0pre",
+    "tower-expression": "~0.5.0pre",
+    "tower-content": "~0.5.0pre"
   }
 }
