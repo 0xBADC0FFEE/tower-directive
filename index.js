@@ -61,6 +61,8 @@ exports.defined = function(name){
   return exports.collection.hasOwnProperty(name);
 };
 
+exports.has = defined;
+
 /**
  * toString.
  */
