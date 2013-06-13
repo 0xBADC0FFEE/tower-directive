@@ -30,8 +30,9 @@ exports.Directive = Directive;
 /**
  * Get/set directive function.
  * 
- * @param {String} name
- * @param {Function} fn
+ * @param {String} name The directive's name.
+ * @param {Function} fn Function called on directive definition.
+ * @return {Directive} A `Directive` object.
  */
 
 function directive(name, fn) {
@@ -52,9 +53,10 @@ function directive(name, fn) {
 Emitter(exports);
 
 /**
- * Check if directive is defined.
+ * Check if a directive is defined.
  *
- * XXX: defined vs. has vs. exists?
+ * @param {String} name A directive name.
+ * @return {Boolean} true if the `Directive` has been defined, but false otherwise
  */
 
 exports.defined = function(name){
@@ -64,7 +66,9 @@ exports.defined = function(name){
 exports.has = exports.defined;
 
 /**
- * toString.
+ * Standard `toString`.
+ *
+ * @return {String} A specifically formatted String.
  */
 
 exports.toString = function(){
@@ -73,6 +77,8 @@ exports.toString = function(){
 
 /**
  * Clear all directives.
+ *
+ * @return {this} self.
  */
 
 exports.clear = function(){
@@ -84,11 +90,14 @@ exports.clear = function(){
   return exports;
 };
 
+
 /**
- * Instantiate a new `Directive`.
+ * Class representing the extensions to HTML.
  *
- * @param {String} name
- * @param {Function} [fn]
+ * @class
+ *
+ * @param {String} name The directive's name.
+ * @param {Function} The directive function to be executed.
  * @api private
  */
 
@@ -104,8 +113,9 @@ function Directive(name, fn) {
  * This one (compared to `compile`)
  * is useful for testing. It is slightly less optimized.
  *
- * @param {DOMNode} element
- * @param {Content} scope
+ * @param {DOMNode} element The DOM element to apply the internal exec function to.
+ * @param {Content} scope The content to apply the internal exec function to.
+ * @return {Object} A scope.
  */
 
 Directive.prototype.exec = function(element, scope){
@@ -124,6 +134,7 @@ Directive.prototype.exec = function(element, scope){
  * Return optimized function for use in templates.
  *
  * @param {DOMNode} element Element used for template.
+ * @return {Object} A scope.
  */
 
 Directive.prototype.compile = function(element){
@@ -140,6 +151,9 @@ Directive.prototype.compile = function(element){
  * XXX: The only types of elements this can be defined on.
  *
  * Comment/Script/Element/Text
+ *
+ * @chainable
+ * @return {Directive} self.
  */
 
 Directive.prototype.types = function(){
@@ -151,6 +165,9 @@ Directive.prototype.types = function(){
  *
  * XXX: Maybe this becomes a separate module/object,
  *      or uses `tower-attr`.
+ *
+ * @param {Content} element The element to extract attributes from.
+ * @return {Object} Extracted directive and element data.
  */
 
 Directive.prototype._compileAttr = function(element){
@@ -168,7 +185,7 @@ Directive.prototype._compileAttr = function(element){
  * Higher means it gets moved toward the front.
  *
  * @param {Integer} val Defaults to 0.
- * @return {Directive} self
+ * @return {Directive} self.
  */
 
 Directive.prototype.priority = function(val){
@@ -177,7 +194,9 @@ Directive.prototype.priority = function(val){
 };
 
 /**
- * toString.
+ * Standard `toString`.
+ *
+ * @return {String} A specifically formatted String.
  */
 
 Directive.prototype.toString = function(){
