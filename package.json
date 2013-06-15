@@ -7,5 +7,8 @@
     "tower-emitter": "~0.1.0pre",
     "tower-expression": "~0.1.0pre",
     "tower-content": "~0.1.0pre"
+  },
+  "devDependencies": {
+    "jsdom": "~0.6.5"
   }
 }

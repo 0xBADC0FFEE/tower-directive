@@ -1,8 +1,18 @@
 
-var directive = require('tower-directive');
 var content = require('tower-content');
-var query = require('component-query');
-var assert = require('timoxley-assert');
+var document = 'undefined' !== typeof window && document;
+
+if ('undefined' === typeof window) {
+  var directive = require('..');
+  var assert = require('assert');
+  var jsdom = require('jsdom').jsdom;
+  var fs = require('fs');
+  var path = require('path');
+  document = jsdom(fs.readFileSync(path.join(__dirname, 'index.html')));
+} else {
+  var directive = require('tower-directive');
+  var assert = require('timoxley-assert'); 
+}
 
 describe('directive', function(){
   beforeEach(directive.clear);
@@ -19,9 +29,9 @@ describe('directive', function(){
   it('should execute (and return a content)', function(done){
     var result = directive('data-title', function(ctx, element){
       assert(content.root() === ctx);
-      assert(query('#mocha') === element);
+      assert(document.querySelector('#mocha') === element);
       done();
-    }).exec(query('#mocha'), content.root());
+    }).exec(document.querySelector('#mocha'), content.root());
   });
   
   it('should print "directive(name)" on instance.toString()', function(){
@@ -43,14 +53,14 @@ describe('directive', function(){
 
     var result = directive('data-title', function(ctx, element){
       return custom;
-    }).exec(query('#mocha'), content.root());
+    }).exec(document.querySelector('#mocha'), content.root());
 
     assert(custom === result);
   });
 
   describe('expressions', function(){
     it('should handle operator expressions', function(){
-      var element = query('#operator-expression');
+      var element = document.querySelector('#operator-expression');
       directive('data-operator-expression', function(ctx, element, attr){
         if (attr.expression(ctx)) {
           element.textContent = 'Count is greater than 10';
@@ -66,7 +76,7 @@ describe('directive', function(){
     });
 
     it('should handle function(arg) expressions', function(done){
-      var element = query('#fn-arg-expression');
+      var element = document.querySelector('#fn-arg-expression');
       directive('data-fn-arg-expression', function(ctx, element, attr){
         attr.expression(ctx);
       });
