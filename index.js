@@ -148,7 +148,7 @@ Directive.prototype.compile = function(element){
   var attr = this._compileAttr(element);
   var execFn = this._compiler
     ? this._compiler(element, attr)
-    : this.exec;
+    : this._exec;
 
   return function exec(element, scope) {
     element.__scope__ = scope;
@@ -193,7 +193,10 @@ Directive.prototype.types = function(){
  */
 
 Directive.prototype._compileAttr = function(element){
-  var val = element.getAttribute(this.name);
+  var val = element.getAttribute
+    ? element.getAttribute(this.name)
+    : undefined; // text/comment node
+
   return {
     name: this.name,
     value: val, // raw value
