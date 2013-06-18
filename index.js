@@ -33,6 +33,7 @@ exports.Directive = Directive;
  * @param {String} name The directive's name.
  * @param {Function} fn Function called on directive definition.
  * @return {Directive} A `Directive` object.
+ * @api public
  */
 
 function directive(name, fn) {
@@ -57,6 +58,7 @@ Emitter(exports);
  *
  * @param {String} name A directive name.
  * @return {Boolean} true if the `Directive` has been defined, but false otherwise
+ * @api public
  */
 
 exports.defined = function(name){
@@ -69,6 +71,7 @@ exports.has = exports.defined;
  * Standard `toString`.
  *
  * @return {String} A specifically formatted String.
+ * @api public
  */
 
 exports.toString = function(){
@@ -78,7 +81,9 @@ exports.toString = function(){
 /**
  * Clear all directives.
  *
- * @return {this} self.
+ * @chainable
+ * @return {Function} exports The main `directive` function.
+ * @api public
  */
 
 exports.clear = function(){
@@ -135,16 +140,31 @@ Directive.prototype.exec = function(element, scope){
  *
  * @param {DOMNode} element Element used for template.
  * @return {Object} A scope.
+ * @api private
  */
 
 Directive.prototype.compile = function(element){
   var self = this;
   var attr = this._compileAttr(element);
+  var compiler = this._compiler || (this._compiler = this._exec);
 
   return function exec(element, scope) {
     element.__scope__ = scope;
-    return self._exec(scope, element, attr) || scope;
+    return compiler.call(self, scope, element, attr) || scope;
   }
+};
+
+/**
+ * Define custom compiler function.
+ *
+ * @param {Function} fn Custom compiler function.
+ * @return {Directive} this
+ * @api private
+ */
+
+Directive.prototype.compiler = function(fn){
+  this._compiler = fn;
+  return this;
 };
 
 /**
@@ -153,7 +173,7 @@ Directive.prototype.compile = function(element){
  * Comment/Script/Element/Text
  *
  * @chainable
- * @return {Directive} self.
+ * @return {Function} exports The main `directive` function.
  */
 
 Directive.prototype.types = function(){
@@ -184,8 +204,9 @@ Directive.prototype._compileAttr = function(element){
  *
  * Higher means it gets moved toward the front.
  *
+ * @chainable
  * @param {Integer} val Defaults to 0.
- * @return {Directive} self.
+ * @return {Function} exports The main `directive` function.
  */
 
 Directive.prototype.priority = function(val){
