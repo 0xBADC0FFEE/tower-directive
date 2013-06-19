@@ -139,15 +139,16 @@ Directive.prototype.exec = function(element, scope){
  * Return optimized function for use in templates.
  *
  * @param {DOMNode} element Element used for template.
+ * @param {Function} nodeFn The template function used for transclusion.
  * @return {Object} A scope.
  * @api private
  */
 
-Directive.prototype.compile = function(element){
+Directive.prototype.compile = function(element, nodeFn){
   var self = this;
   var attr = this._compileAttr(element);
   var execFn = this._compiler
-    ? this._compiler(element, attr)
+    ? this._compiler(element, attr, nodeFn)
     : this._exec;
 
   return function exec(element, scope) {
