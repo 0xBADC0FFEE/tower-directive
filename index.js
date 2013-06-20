@@ -221,6 +221,23 @@ Directive.prototype.priority = function(val){
 };
 
 /**
+ * Terminal.
+ *
+ * If set to true, it will stop processing the template right there.
+ * Then it is up to the directive itself to handling creating sub-templates.
+ * This is used mainly for creating iterators.
+ *
+ * @chainable
+ * @param {Boolean} [val]
+ * @return {Directive} this
+ */
+
+Directive.prototype.terminal = function(val){
+  this._terminal = false === val ? false : true;
+  return this;
+};
+
+/**
  * Standard `toString`.
  *
  * @return {String} A specifically formatted String.
