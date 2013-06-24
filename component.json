@@ -2,12 +2,12 @@
   "name": "tower-directive",
   "repo": "tower/directive",
   "description": "Tower Directive component",
-  "version": "0.1.0pre2",
+  "version": "0.1.0",
   "keywords": [],
   "dependencies": {
-    "tower/emitter": "*",
-    "tower/content": "*",
-    "tower/expression": "*",
+    "tower/emitter": "0.1.0",
+    "tower/content": "0.1.0",
+    "tower/expression": "0.1.0",
     "component/event": "*",
     "component/value": "*"
   },

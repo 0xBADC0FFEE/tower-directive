@@ -1,14 +1,18 @@
 {
   "name": "tower-directive",
   "description": "Tower Directive component",
-  "version": "0.1.0pre2",
+  "version": "0.1.0",
   "keywords": [],
   "dependencies": {
-    "tower-emitter": "~0.1.0pre",
-    "tower-expression": "~0.1.0pre",
-    "tower-content": "~0.1.0pre"
+    "tower-emitter": "~0.1.0",
+    "tower-expression": "~0.1.0",
+    "tower-content": "~0.1.0"
   },
   "devDependencies": {
     "jsdom": "~0.6.5"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "http://github.com/tower/directive.git"
   }
 }

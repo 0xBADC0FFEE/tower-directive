@@ -95,7 +95,6 @@ exports.clear = function(){
   return exports;
 };
 
-
 /**
  * Class representing the extensions to HTML.
  *
