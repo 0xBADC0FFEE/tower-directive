@@ -5,7 +5,6 @@
 
 var Emitter = require('tower-emitter')
 var content = require('tower-content')
-var expression = require('tower-expression')
 var directives = require('./lib/directives')
 var noop = function(){};
 
@@ -199,8 +198,7 @@ Directive.prototype._compileAttr = function(element){
 
   return {
     name: this.name,
-    value: val, // raw value
-    expression: val ? expression(val) : noop
+    value: val
   };
 };
 
