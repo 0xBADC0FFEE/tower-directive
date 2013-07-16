@@ -144,6 +144,8 @@ Directive.prototype.exec = function(element, scope){
 
 Directive.prototype.compile = function(element, nodeFn){
   var self = this;
+  // XXX: chance to hook in
+  // exports.emit('precompile', element);
   var attr = this._compileAttr(element);
   var execFn = this._compiler
     ? this._compiler(element, attr, nodeFn)
