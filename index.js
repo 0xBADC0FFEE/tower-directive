@@ -3,10 +3,7 @@
  * Module dependencies.
  */
 
-var Emitter = require('tower-emitter')
-var content = require('tower-content')
-var directives = require('./lib/directives')
-var noop = function(){};
+var Emitter = require('tower-emitter');
 
 /**
  * Expose `directive`.
@@ -60,11 +57,9 @@ Emitter(exports);
  * @api public
  */
 
-exports.defined = function(name){
+exports.has = function(name){
   return exports.collection.hasOwnProperty(name);
 };
-
-exports.has = exports.defined;
 
 /**
  * Standard `toString`.
@@ -87,10 +82,7 @@ exports.toString = function(){
 
 exports.clear = function(){
   exports.off();
-  // recursively emit `"remove"`.
-  content.clear();
   exports.collection = [];
-  directives(exports);
   return exports;
 };
 
@@ -107,7 +99,7 @@ exports.clear = function(){
 function Directive(name, fn) {
   this.name = name;
   this._priority = 0;
-  if (fn) this._exec = fn;
+  if (fn) this._compile = fn;
 }
 
 /**
@@ -116,64 +108,39 @@ function Directive(name, fn) {
  * This one (compared to `compile`)
  * is useful for testing. It is slightly less optimized.
  *
- * @param {DOMNode} element The DOM element to apply the internal exec function to.
  * @param {Content} scope The content to apply the internal exec function to.
+ * @param {DOMNode} el The DOM el to apply the internal exec function to.
  * @return {Object} A scope.
  */
 
-Directive.prototype.exec = function(element, scope){
-  // way to quickly access scope on element later.
-  // XXX: pretty sure if the element gets removed,
-  //      this won't create a memory leak.
-  element.__scope__ = scope;
-  var attr = this._compileAttr(element);
-  if (!content.is(scope)) scope = content('anonymous').init(scope);
-
+Directive.prototype.exec = function(scope, el){
+  el.__scope__ = scope;
   // return a scope.
-  return this._exec(scope, element, attr) || scope;
+  return this._exec(scope, el) || scope;
 };
 
 /**
  * Return optimized function for use in templates.
  *
- * @param {DOMNode} element Element used for template.
+ * @param {DOMNode} el el used for template.
  * @param {Function} nodeFn The template function used for transclusion.
  * @return {Object} A scope.
  * @api private
  */
 
-Directive.prototype.compile = function(element, nodeFn){
+Directive.prototype.compile = function(el, nodeFn){
+  this._exec = this._compile(el, nodeFn);
   var self = this;
-  // XXX: chance to hook in
-  // exports.emit('precompile', element);
-  var attr = this._compileAttr(element);
-  var execFn = this._compiler
-    ? this._compiler(element, attr, nodeFn)
-    : this._exec;
 
-  return function exec(element, scope) {
-    element.__scope__ = scope;
-    return execFn.call(self, scope, element, attr) || scope;
+  return function exec(scope, el) {
+    return self.exec.call(self, scope, el);
   }
 };
 
 /**
- * Define custom compiler function.
+ * XXX: The only types of els this can be defined on.
  *
- * @param {Function} fn Custom compiler function.
- * @return {Directive} this
- * @api private
- */
-
-Directive.prototype.compiler = function(fn){
-  this._compiler = fn;
-  return this;
-};
-
-/**
- * XXX: The only types of elements this can be defined on.
- *
- * Comment/Script/Element/Text
+ * Comment/Script/el/Text
  *
  * @chainable
  * @return {Function} exports The main `directive` function.
@@ -181,27 +148,6 @@ Directive.prototype.compiler = function(fn){
 
 Directive.prototype.types = function(){
   return this;
-};
-
-/**
- * Compile attribute from element.
- *
- * XXX: Maybe this becomes a separate module/object,
- *      or uses `tower-attr`.
- *
- * @param {Content} element The element to extract attributes from.
- * @return {Object} Extracted directive and element data.
- */
-
-Directive.prototype._compileAttr = function(element){
-  var val = element.getAttribute
-    ? element.getAttribute(this.name)
-    : undefined; // text/comment node
-
-  return {
-    name: this.name,
-    value: val
-  };
 };
 
 /**
@@ -245,9 +191,3 @@ Directive.prototype.terminal = function(val){
 Directive.prototype.toString = function(){
   return 'directive("' + this.name + '")';
 };
-
-/**
- * Define base directives.
- */
-
-directives(exports);

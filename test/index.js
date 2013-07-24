@@ -26,12 +26,26 @@ describe('directive', function(){
     directive('property');
   });
 
+  it('#has', function(){
+    assert(false === directive.has('property'));
+    directive('property');
+    assert(true === directive.has('property'));
+  });
+
   it('should execute (and return a content)', function(done){
-    var result = directive('data-title', function(ctx, element){
-      assert(content.root() === ctx);
-      assert(document.querySelector('#mocha') === element);
-      done();
-    }).exec(document.querySelector('#mocha'), content.root());
+    var el = document.querySelector('#mocha');
+    var scope = content.root();
+
+    directive('data-title', function(passedEl){
+      return function exec(passedScope, passedEl) {
+        assert(scope === passedScope);
+        assert(el === passedEl);
+        done();
+      }
+    });
+
+    var fn = directive('data-title').compile(el);
+    fn(scope, el);
   });
   
   it('should print "directive(name)" on instance.toString()', function(){
@@ -42,54 +56,17 @@ describe('directive', function(){
     assert('directive' === directive.toString());
   });
 
-  it('should return `true` if `defined`', function(){
-    assert(false === directive.defined('data-random'));
-    directive('data-random', function(){});
-    assert(true === directive.defined('data-random'));
-  });
-
   it('should return a custom content', function(){
-    var custom = content('custom').init();
+    var el = document.querySelector('#mocha');
+    var scope = content('custom').init();
 
-    var result = directive('data-title', function(ctx, element){
-      return custom;
-    }).exec(document.querySelector('#mocha'), content.root());
-
-    assert(custom === result);
-  });
-
-  describe('expressions', function(){
-    it('should handle operator expressions', function(){
-      var element = document.querySelector('#operator-expression');
-      directive('data-operator-expression', function(ctx, element, attr){
-        if (attr.expression(ctx)) {
-          element.textContent = 'Count is greater than 10';
-        } else {
-          element.textContent = 'Count is not greater than 10';
-        }
-      });
-
-      directive('data-operator-expression').exec(element, { count: 20 });
-      assert('Count is greater than 10' === element.textContent);
-      directive('data-operator-expression').exec(element, { count: 5 });
-      assert('Count is not greater than 10' === element.textContent);
+    directive('data-title', function(el){
+      return function() {
+        return scope;
+      }
     });
 
-    it('should handle function(arg) expressions', function(done){
-      var element = document.querySelector('#fn-arg-expression');
-      directive('data-fn-arg-expression', function(ctx, element, attr){
-        attr.expression(ctx);
-      });
-
-      content('todos')
-        .attr('todo', 'object')
-        .action('create', function(todo){
-          assert('A todo!' === todo.title);
-          done();
-        });
-
-      var ctx = content('todos').init({ todo: { title: 'A todo!' } });
-      directive('data-fn-arg-expression').exec(element, ctx);
-    });
+    var fn = directive('data-title').compile(el);
+    assert(scope === fn(scope, el));
   });
 });
