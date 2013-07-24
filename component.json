@@ -17,8 +17,7 @@
     "component/query": "*"
   },
   "scripts": [
-    "index.js",
-    "lib/directives.js"
+    "index.js"
   ],
   "license": "MIT"
 }
