@@ -133,7 +133,7 @@ Directive.prototype.compile = function(el, nodeFn){
   var self = this;
 
   return function exec(scope, el) {
-    return fn.call(self, scope, el);
+    return fn.call(self, scope, el) || scope;
   }
 };
 
