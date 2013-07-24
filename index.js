@@ -129,11 +129,11 @@ Directive.prototype.exec = function(scope, el){
  */
 
 Directive.prototype.compile = function(el, nodeFn){
-  this._exec = this._compile(el, nodeFn);
+  var fn = this._compile(el, nodeFn);
   var self = this;
 
   return function exec(scope, el) {
-    return self.exec.call(self, scope, el);
+    return fn.call(self, scope, el);
   }
 };
 
