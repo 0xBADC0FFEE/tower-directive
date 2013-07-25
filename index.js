@@ -4,6 +4,7 @@
  */
 
 var Emitter = require('tower-emitter');
+var compile = require('tower-directive-expression');
 
 /**
  * Expose `directive`.
@@ -119,11 +120,19 @@ function Directive(name, fn, manualCompile) {
  */
 
 Directive.prototype.compile = function(el, nodeFn){
-  var fn = this._exec || this._compile(el, nodeFn);
   var self = this;
 
+  // compile expression for directive name
+  var exp = el.nodeType === 1
+    ? compile(this._expression, el.getAttribute(this.name))
+    : undefined; // text/comment nodes
+
+  // get compiled function
+  var fn = this._exec || this._compile(el, exp, nodeFn);
+
+  // executed every time template is rendered.
   return function exec(scope, el) {
-    return fn.call(self, scope, el) || scope;
+    return fn.call(self, scope, el, exp, nodeFn) || scope;
   }
 };
 
@@ -137,6 +146,21 @@ Directive.prototype.compile = function(el, nodeFn){
  */
 
 Directive.prototype.types = function(){
+  return this;
+};
+
+/**
+ * Default expression.
+ */
+
+Directive.prototype._expression = 'data-value';
+
+/**
+ * Custom expression name.
+ */
+
+Directive.prototype.expression = function(name){
+  this._expression = name;
   return this;
 };
 
