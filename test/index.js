@@ -36,12 +36,10 @@ describe('directive', function(){
     var el = document.querySelector('#mocha');
     var scope = content.root();
 
-    directive('data-title', function(passedEl){
-      return function exec(passedScope, passedEl) {
-        assert(scope === passedScope);
-        assert(el === passedEl);
-        done();
-      }
+    directive('data-title', function(passedScope, passedEl){
+      assert(scope === passedScope);
+      assert(el === passedEl);
+      done();
     });
 
     var fn = directive('data-title').compile(el);
@@ -60,10 +58,8 @@ describe('directive', function(){
     var el = document.querySelector('#mocha');
     var scope = content('custom').init();
 
-    directive('data-title', function(el){
-      return function() {
-        return scope;
-      }
+    directive('data-title', function(passedScope, passedEl){
+      return scope;
     });
 
     var fn = directive('data-title').compile(el);

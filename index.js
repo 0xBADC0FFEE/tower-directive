@@ -32,11 +32,11 @@ exports.Directive = Directive;
  * @api public
  */
 
-function directive(name, fn) {
+function directive(name, fn, manualCompile) {
   if (undefined === fn && exports.collection[name])
     return exports.collection[name];
 
-  var instance = new Directive(name, fn);
+  var instance = new Directive(name, fn, manualCompile);
   exports.collection[name] = instance;
   exports.collection.push(instance);
   exports.emit('define', instance);
@@ -96,28 +96,18 @@ exports.clear = function(){
  * @api private
  */
 
-function Directive(name, fn) {
+function Directive(name, fn, manualCompile) {
   this.name = name;
   this._priority = 0;
-  if (fn) this._compile = fn;
+
+  if (fn) {
+    if (manualCompile || 1 === fn.length) {
+      this._compile = fn;
+    } else {
+      this._exec = fn;
+    }
+  }
 }
-
-/**
- * Apply the directive.
- *
- * This one (compared to `compile`)
- * is useful for testing. It is slightly less optimized.
- *
- * @param {Content} scope The content to apply the internal exec function to.
- * @param {DOMNode} el The DOM el to apply the internal exec function to.
- * @return {Object} A scope.
- */
-
-Directive.prototype.exec = function(scope, el){
-  el.__scope__ = scope;
-  // return a scope.
-  return this._exec(scope, el) || scope;
-};
 
 /**
  * Return optimized function for use in templates.
@@ -129,7 +119,7 @@ Directive.prototype.exec = function(scope, el){
  */
 
 Directive.prototype.compile = function(el, nodeFn){
-  var fn = this._compile(el, nodeFn);
+  var fn = this._exec || this._compile(el, nodeFn);
   var self = this;
 
   return function exec(scope, el) {
