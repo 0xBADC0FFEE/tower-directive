@@ -14,8 +14,8 @@
     "visionmedia/mocha": "*",
     "timoxley/assert": "*",
     "component/query": "*",
-    "tower/expression": "0.1.3",
-    "tower/content": "0.1.3"
+    "tower/expression": "*",
+    "tower/content": "*"
   },
   "scripts": [
     "index.js"
