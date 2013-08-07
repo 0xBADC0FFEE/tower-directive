@@ -124,7 +124,9 @@ Directive.prototype.compile = function(el, nodeFn){
 
   // compile expression for directive name
   var exp = el.nodeType === 1
-    ? compile(this._expression, el.getAttribute(this.name))
+    ? el.getAttribute(this.name)
+      ? compile(this._expression, el.getAttribute(this.name))
+      : undefined
     : undefined; // text/comment nodes
 
   // get compiled function
