@@ -5,6 +5,7 @@
 
 var Emitter = require('tower-emitter');
 var compile = require('tower-directive-expression');
+var hasDocument = 'undefined' !== typeof window && window.document;
 
 /**
  * Expose `directive`.
@@ -100,6 +101,8 @@ exports.clear = function(){
 function Directive(name, fn, manualCompile) {
   this.name = name;
   this._priority = 0;
+  // attribute, text, element, comment
+  this._types = { attribute: true };
 
   if (fn) {
     if (manualCompile || 1 === fn.length) {
@@ -147,7 +150,36 @@ Directive.prototype.compile = function(el, nodeFn){
  * @return {Function} exports The main `directive` function.
  */
 
-Directive.prototype.types = function(){
+Directive.prototype.types = function(val){
+  this._types = val;
+  // IE8 fix.
+  if (this._types.element && hasDocument) document.createElement(this.name);
+  return this;
+};
+
+Directive.prototype.scope = function(name){
+  this._scope = content(name);
+  return this;
+};
+
+/**
+ * HTML Template.
+ *
+ * @param {Mixed} val String or DOMNode.
+ */
+
+Directive.prototype.template = function(val){
+  this._template = val;
+  return this;
+};
+
+Directive.prototype.attr = function(){
+  this._scope.attr.apply(this._scope, this.arguments);
+  return this;
+};
+
+Directive.prototype.action = function(){
+  this._scope.action.apply(this._scope, this.arguments);
   return this;
 };
 
