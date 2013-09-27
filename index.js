@@ -5,6 +5,7 @@
 
 var Emitter = require('tower-emitter');
 var compile = require('tower-directive-expression');
+var content = require('tower-content');
 var hasDocument = 'undefined' !== typeof window && window.document;
 
 /**
@@ -38,11 +39,11 @@ function directive(name, fn, manualCompile) {
   if (undefined === fn && exports.collection[name])
     return exports.collection[name];
 
-  var instance = new Directive(name, fn, manualCompile);
-  exports.collection[name] = instance;
-  exports.collection.push(instance);
-  exports.emit('define', instance);
-  return instance;
+  var obj = new Directive(name, fn, manualCompile);
+  exports.collection[name] = obj;
+  exports.collection.push(obj);
+  exports.emit('define', obj);
+  return obj;
 }
 
 /**
@@ -122,7 +123,7 @@ function Directive(name, fn, manualCompile) {
  * @api private
  */
 
-Directive.prototype.compile = function(el, nodeFn){
+Directive.prototype.compile = function(el, nodeFn, attrs){
   var self = this;
 
   // compile expression for directive name
@@ -133,11 +134,12 @@ Directive.prototype.compile = function(el, nodeFn){
     : undefined; // text/comment nodes
 
   // get compiled function
+  // XXX: put attrs here.
   var fn = this._exec || this._compile(el, exp, nodeFn);
 
   // executed every time template is rendered.
   return function exec(scope, el) {
-    return fn.call(self, scope, el, exp, nodeFn) || scope;
+    return fn.call(self, scope, el, exp, nodeFn, attrs) || scope;
   }
 };
 
@@ -157,30 +159,17 @@ Directive.prototype.types = function(val){
   return this;
 };
 
-Directive.prototype.scope = function(name){
-  this._scope = content(name);
-  return this;
+Directive.prototype.compileExpression = function(val){
+  return compile(this._expression, val);
 };
 
-/**
- * HTML Template.
- *
- * @param {Mixed} val String or DOMNode.
- */
-
-Directive.prototype.template = function(val){
-  this._template = val;
-  return this;
+Directive.prototype.compileExpressionForAttribute = function(name, val){
+  // XXX: for now.
+  return this.compileExpression(val);
 };
 
-Directive.prototype.attr = function(){
-  this._scope.attr.apply(this._scope, this.arguments);
-  return this;
-};
-
-Directive.prototype.action = function(){
-  this._scope.action.apply(this._scope, this.arguments);
-  return this;
+Directive.prototype.hasAttribute = function(name){
+  return true;//!!(this._scope && this._scope.attrs[name]);
 };
 
 /**

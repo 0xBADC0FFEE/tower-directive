@@ -54,6 +54,37 @@ describe('directive', function(){
     assert('directive' === directive.toString());
   });
 
+  it('should support custom elements', function(done){
+    var el = document.querySelector('background');
+
+    directive('background', function(scope, el, exp, nodeFn, attrs){
+      assert('<background src="url"></background>' === el.outerHTML);
+      done();
+    }).types({ element: true });
+
+    var scope = content('random').init({ url: '/foo.jpg' });
+    var fn = directive('background').compile(el);
+    fn(scope, el);
+  });
+
+  it('should support comments', function(){
+    var el = document.querySelector('#precompiled-list');
+
+    directive('data-each', function(scope, el, exp){
+      // XXX
+    }).types({ comment: true });
+
+    var posts = [
+      { title: 'One' },
+      { title: 'Two' },
+      { title: 'Three' }
+    ];
+
+    var scope = content('random').init({ posts: posts });
+    var fn = directive('data-each').compile(el);
+    fn(scope, el);
+  });
+
   it('should return a custom content', function(){
     var el = document.querySelector('#mocha');
     var scope = content('custom').init();

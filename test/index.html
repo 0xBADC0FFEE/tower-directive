@@ -7,6 +7,19 @@
   </head>
   <body>
     <div id="tests">
+      <background src="url"></background>
+      <ul id="precompiled-list">
+        <!-- data-each="post in posts" -->
+        <li>
+          <span data-text="post.title">One</span>
+        </li>
+        <li>
+          <span data-text="post.title">Two</span>
+        </li>
+        <li>
+          <span data-text="post.title">Three</span>
+        </li>
+      </ul>
       <a id="should-execute-all" href="/" data-title="foo"><span data-text="bar"></span></a>
       <p id="should-use-root-scope" href="/" data-html="foo"></p>
 

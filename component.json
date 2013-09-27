@@ -7,6 +7,7 @@
   "dependencies": {
     "tower/emitter": "*",
     "tower/directive-expression": "*",
+    "tower/content": "*",
     "component/event": "*",
     "component/value": "*"
   },

@@ -5,7 +5,8 @@
   "keywords": [],
   "dependencies": {
     "tower-emitter": "*",
-    "tower-directive-expression": "*"
+    "tower-directive-expression": "*",
+    "tower-content": "*"
   },
   "devDependencies": {
     "jsdom": "~0.6.5",
