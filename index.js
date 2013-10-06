@@ -7,6 +7,7 @@ var Emitter = require('tower-emitter');
 var compile = require('tower-directive-expression');
 var content = require('tower-content');
 var statics = require('./lib/statics');
+var proto = require('./lib/proto');
 
 /**
  * Expose `directive`.
@@ -43,14 +44,23 @@ function directive(name, fn, manualCompile) {
    * @api private
    */
 
-  function Directive(el, attrs, nodeFn) {
+  function Directive(el, attrs) {
     this.name = name;
+    this.attrs = attrs;
+
     // attribute, text, element, comment
+    if (1 === el.nodeType) {
+      if (this.element) {
+
+      } else if (this.attribute) {
+        attrs[this.name] = exports.expression(Directive._expression, el.getAttribute(this.name));
+      }
+    }
   }
 
   Directive.id = name;
   Directive.expressions = {};
-  Directive.prototype._types = { attribute: true };
+  Directive.prototype.attribute = true;
 
   if (fn) {
     if (manualCompile || 1 === fn.length) {
@@ -60,11 +70,8 @@ function directive(name, fn, manualCompile) {
     }
   }
 
-  Directive.compileExpression = function(val){
-    return exports.expression(this._expression, val);
-  };
-
   for (var key in statics) Directive[key] = statics[key];
+  for (var key in proto) Directive.prototype[key] = proto[key];
 
   exports.collection[name] = Directive;
   exports.collection.push(Directive);
@@ -97,7 +104,7 @@ exports.expression = function(name, val, opts, fn){
  * @api public
  */
 
-exports.has = function(name){
+exports.defined = function(name){
   return exports.collection.hasOwnProperty(name);
 };
 
