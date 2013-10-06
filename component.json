@@ -19,7 +19,8 @@
     "tower/content": "*"
   },
   "scripts": [
-    "index.js"
+    "index.js",
+    "lib/statics.js"
   ],
   "license": "MIT"
 }
