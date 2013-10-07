@@ -10,6 +10,14 @@ var statics = require('./lib/statics');
 var proto = require('./lib/proto');
 
 /**
+ * Global document (for client and server).
+ */
+
+var document = 'undefined' === typeof document
+  ? undefined // tower/server-dom
+  : window.document;
+
+/**
  * Expose `directive`.
  */
 
@@ -47,11 +55,12 @@ function directive(name, fn, manualCompile) {
   function Directive(el, attrs) {
     this.name = name;
     this.attrs = attrs;
+    this.document = document;
 
     // attribute, text, element, comment
     if (1 === el.nodeType) {
       if (this.element) {
-
+        // XXX: compile attributes for element?
       } else if (this.attribute) {
         attrs[this.name] = exports.expression(Directive._expression, el.getAttribute(this.name));
       }
