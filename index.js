@@ -70,6 +70,7 @@ function directive(name, fn, manualCompile) {
   Directive.id = name;
   Directive.expressions = {};
   Directive.prototype.attribute = true;
+  Directive.prototype.processChildren = true;
 
   if (fn) {
     if (manualCompile || 1 === fn.length) {
