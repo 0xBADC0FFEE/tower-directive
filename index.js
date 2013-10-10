@@ -62,7 +62,10 @@ function directive(name, fn, manualCompile) {
       if (this.element) {
         // XXX: compile attributes for element?
       } else if (this.attribute) {
-        attrs[this.name] = exports.expression(Directive._expression, el.getAttribute(this.name));
+        var val = el.getAttribute(this.name);
+        if (val) {
+          attrs[this.name] = exports.expression(Directive._expression, val);
+        }
       }
     }
   }
