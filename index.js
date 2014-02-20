@@ -3,9 +3,9 @@
  * Module dependencies.
  */
 
-var Emitter = require('tower-emitter');
-var compile = require('tower-directive-expression');
-var content = require('tower-content');
+// commented out by npm-component: var Emitter = require('tower-emitter');
+// commented out by npm-component: var compile = require('tower-directive-expression');
+// commented out by npm-component: var content = require('tower-content');
 var statics = require('./lib/statics');
 var proto = require('./lib/proto');
 

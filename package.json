@@ -1,20 +1,14 @@
 {
   "name": "tower-directive",
   "description": "Tower Directive component",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "keywords": [],
   "dependencies": {
-    "tower-emitter": "*",
-    "tower-directive-expression": "*",
-    "tower-content": "*"
+    "tower-emitter": "git://github.com/npmcomponent/tower-emitter.git",
+    "tower-directive-expression": "git://github.com/npmcomponent/tower-directive-expression.git",
+    "tower-content": "git://github.com/npmcomponent/tower-content.git",
+    "component-event": "git://github.com/npmcomponent/component-event.git",
+    "component-value": "git://github.com/npmcomponent/component-value.git"
   },
-  "devDependencies": {
-    "jsdom": "~0.6.5",
-    "tower-expression": "*",
-    "tower-content": "*"
-  },
-  "repository": {
-    "type" : "git",
-    "url" : "http://github.com/tower/directive.git"
-  }
+  "license": "MIT"
 }
